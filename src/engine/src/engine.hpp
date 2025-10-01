@@ -1,5 +1,7 @@
 // engine.hpp
 
+#pragma once
+
 #include "infos.hpp"
 
 #include "game.hpp"
@@ -17,12 +19,6 @@ class Engine
         Engine();
 
         ~Engine() = default;
-
-        const EngineInfos get_infos() const;
-
-        const bool is_ready() const;
-
-        void new_game();
 
         void update_position(std::string fen);
 

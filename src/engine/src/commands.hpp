@@ -1,3 +1,5 @@
+#pragma once
+
 enum class UCICommands {
     CMD_UCI,
     CMD_IS_READY,

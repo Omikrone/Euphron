@@ -1,5 +1,7 @@
 // infos.hpp
 
+#pragma once
+
 #include <string>
 
 

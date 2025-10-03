@@ -30,40 +30,34 @@ const std::string UCI::go(const std::optional<uint32_t> w_time, const std::optio
 }
 
 
-void UCI::loop() {
-    std::string input;
+std::string UCI::handle_command(std::string input) {
+
     std::string output;
 
-    while (true)
-    {
-        std::cout << ">> ";
-        std::cin >> input;
-
-        std::optional<UCICommands> cmd = CommandParser::parse_command(input);
-        if (cmd == std::nullopt) {
-            std::cout << "Unknown command. Please retry." << std::endl;
-            continue;
-        }
-
-        switch (cmd.value())
-        {
-            case UCICommands::CMD_UCI:
-                output = get_infos();
-                break;
-            case UCICommands::CMD_IS_READY:
-                output = is_ready();
-                break;
-            case UCICommands::CMD_UCI_NEW_GAME:
-                new_game();
-                break;
-            case UCICommands::CMD_GO:
-                output = go(std::nullopt, std::nullopt);
-                break;
-            case UCICommands::CMD_QUIT:
-                return;
-            default:
-                break;
-        }
-        std::cout << output << std::endl;
+    std::optional<UCICommands> cmd = CommandParser::parse_command(input);
+    if (cmd == std::nullopt) {
+        std::cout << "Unknown command. Please retry." << std::endl;
+        return "error";
     }
+
+    switch (cmd.value())
+    {
+        case UCICommands::CMD_UCI:
+            output = get_infos();
+            break;
+        case UCICommands::CMD_IS_READY:
+            output = is_ready();
+            break;
+        case UCICommands::CMD_UCI_NEW_GAME:
+            new_game();
+            break;
+        case UCICommands::CMD_GO:
+            output = go(std::nullopt, std::nullopt);
+            break;
+        case UCICommands::CMD_QUIT:
+            return "quit";
+        default:
+            break;
+    }
+    return output;
 }

@@ -43,11 +43,32 @@ else()
 endif()
 
 # ----------------------------
+# Dépendances externes
+# ----------------------------
+find_package(Threads REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(OpenSSL REQUIRED)
+
+if(PLATFORM_WINDOWS)
+    find_package(Boost REQUIRED)
+else()
+    find_package(Boost REQUIRED COMPONENTS system filesystem)
+endif()
+
+find_package(Crow CONFIG REQUIRED)
+
+# ----------------------------
 # Lien avec libs
 # ----------------------------
 target_link_libraries(chessengine
     PRIVATE
         chess
+        Threads::Threads
+        ZLIB::ZLIB
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Boost::boost
+        Crow::Crow
 )
 
 # ----------------------------

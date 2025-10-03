@@ -31,5 +31,5 @@ class UCI
         UCI();
         ~UCI() = default;
 
-        void loop();
+        std::string handle_command(std::string input);
 };

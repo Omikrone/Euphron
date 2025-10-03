@@ -11,7 +11,12 @@ struct ParseResult
 
 
 const std::optional<UCICommands> CommandParser::parse_command(std::string input) {
-    const char *input_ptr = input.c_str();
+
+    std::istringstream iss(input);
+    std::string command;
+    iss >> command;
+
+    const char *input_ptr = command.c_str();
 
     if (strcmp(input_ptr, "uci")==0)         return UCICommands::CMD_UCI;
     if (strcmp(input_ptr, "isready")==0)     return UCICommands::CMD_IS_READY;

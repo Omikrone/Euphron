@@ -4,9 +4,10 @@
 
 #include "commands.hpp"
 
+#include <cstring>
 #include <string>
 #include <optional>
-
+#include <sstream>
 
 class CommandParser
 {

@@ -16,6 +16,6 @@ int main() {
     UCI interface;
     register_command_routes(app, interface);
 
-    // Runs the app on port 18080
-    app.port(18080).multithreaded().run();
+    // Runs the app on port 18088
+    app.port(18088).multithreaded().run();
 }

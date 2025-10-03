@@ -21,12 +21,16 @@ const std::string UCI::is_ready() const {
 void UCI::new_game() {}
 
 
-void UCI::position(const std::string pos, const std::optional<std::vector<Move>> moves) {}
+void UCI::position(const std::string pos, UCIMove uci_move) {
+    BBMove move = UCIParser::uci_to_bb(uci_move);
+    _engine.update_position(pos, move);
+}
 
 
 const std::string UCI::go(const std::optional<uint32_t> w_time, const std::optional<uint32_t> b_time) {
-    std::string best_move = _engine.find_best_move();
-    return "bestmove " + best_move;
+    BBMove best_move = _engine.find_best_move();
+    UCIMove uci_move = UCIParser::bb_to_uci(best_move);
+    return "bestmove " + uci_move.move;
 }
 
 
@@ -50,6 +54,9 @@ std::string UCI::handle_command(std::string input) {
             break;
         case UCICommands::CMD_UCI_NEW_GAME:
             new_game();
+            break;
+        case UCICommands::CMD_POSITION:
+            position("startpos", {input.substr(input.size() - 4)});
             break;
         case UCICommands::CMD_GO:
             output = go(std::nullopt, std::nullopt);

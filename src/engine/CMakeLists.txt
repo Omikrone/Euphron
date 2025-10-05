@@ -55,7 +55,14 @@ else()
     find_package(Boost REQUIRED COMPONENTS system filesystem)
 endif()
 
-find_package(Crow CONFIG REQUIRED)
+include(FetchContent)
+FetchContent_Declare(
+  crow
+  GIT_REPOSITORY https://github.com/CrowCpp/Crow.git
+  GIT_TAG v1.2.0
+)
+FetchContent_MakeAvailable(crow)
+target_link_libraries(chessengine PRIVATE Crow::Crow)
 
 # ----------------------------
 # Lien avec libs

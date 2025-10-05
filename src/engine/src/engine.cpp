@@ -5,10 +5,11 @@
 
 Engine::Engine() : _game(), _infos() {}
 
+
 void Engine::update_position(std::string fen, BBMove bb_move) {
     std::cout << "before update : " + _game.get_fen() << std::endl;
     bool res = _game.try_apply_move(bb_move.from, bb_move.to);
-    if (!res) std::cout << "ILLEGAL PSOITION" << std::endl;
+    if (!res) std::cout << "ILLEGAL POSITION" << std::endl;
     _game.next_turn();
     std::cout << "after update : " + _game.get_fen() << std::endl;
 }
@@ -16,7 +17,7 @@ void Engine::update_position(std::string fen, BBMove bb_move) {
 
 BBMove Engine::find_best_move() {
     std::cout << "BEFORE move : " + _game.get_fen() << std::endl;
-    std::vector<Move> moves = _game.getAllMoves(_game.get_current_turn());
+    std::vector<Move> moves = _game.get_legal_moves(_game.get_current_turn());
     std::cout << moves.size() << std::endl;
     std::srand(std::time({}));
     int random_i = rand() % moves.size();

@@ -13,4 +13,5 @@ class CommandParser
 {
     public:
         static const std::optional<UCICommands> parse_command(std::string input);
+        static const std::string parse_argument(std::string input);
 };

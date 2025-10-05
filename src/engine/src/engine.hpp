@@ -20,6 +20,8 @@ class Engine
 
         ~Engine() = default;
 
+        void new_game();
+
         void update_position(std::string fen, BBMove bb_move);
 
         BBMove find_best_move();

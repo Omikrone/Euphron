@@ -19,7 +19,7 @@ BBMove Engine::find_best_move() {
     std::cout << "BEFORE move : " + _game.get_fen() << std::endl;
     std::vector<Move> moves = _game.get_legal_moves(_game.get_current_turn());
     std::cout << moves.size() << std::endl;
-    std::srand(std::time({}));
+    std::srand(std::time(nullptr));
     int random_i = rand() % moves.size();
     Move random_move = moves.at(random_i);
     std::cout << random_move.from << " " << random_move.to << std::endl;

@@ -6,6 +6,8 @@
 #include "uci_parser.hpp"
 #include "game.hpp"
 
+#include <ctime>
+
 
 class Engine
 {

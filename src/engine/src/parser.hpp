@@ -15,7 +15,7 @@ class Parser {
     public:
 
         /**
-         * @brief Represents a Result of a parse.
+         * @brief Represents a result of a parse.
          *
          */
         struct ParseIntResult {
@@ -50,5 +50,11 @@ class Parser {
          */
         static ParseIntResult move_to_int(std::string from, std::string to);
 
+        /**
+         * @brief Parses a Bitboards position into an UCI position.
+         *
+         * @param pos An integer (between 0 and 63) representing the position.
+         * @return A string representing the corresponding UCI position.
+         */
         static std::string int_to_pos(int pos);
 };

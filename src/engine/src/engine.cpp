@@ -14,6 +14,7 @@ void Engine::update_position(std::string fen, BBMove bb_move) {
 
 BBMove Engine::find_best_move() {
     std::vector<Move> moves = _game.get_legal_moves(_game.get_current_turn());
+    if (moves.size() == 0) return {-1, -1};
     std::srand(std::time(nullptr));
     int random_i = rand() % moves.size();
     Move random_move = moves.at(random_i);

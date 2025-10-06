@@ -4,7 +4,7 @@
 
 
 void UCI::select_engine(uint64_t game_id) {
-    std::cout << "Selected " << std::to_string(game_id) << std::endl;
+    std::cout << "Selected engine with gameID : " << std::to_string(game_id) << std::endl;
     auto it = _engines.find(game_id);
     if (it == _engines.end()) _engine = nullptr;
     _engine = &it->second;

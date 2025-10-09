@@ -3,7 +3,7 @@
 #include "engine.hpp"
 
 
-Engine::Engine() : _game(), _infos() {}
+Engine::Engine() : _game(), _infos(), _search(_game) {}
 
 
 void Engine::update_position(std::string fen, BBMove bb_move) {
@@ -13,12 +13,17 @@ void Engine::update_position(std::string fen, BBMove bb_move) {
 
 
 BBMove Engine::find_best_move() {
-    std::vector<Move> moves = _game.get_legal_moves(_game.get_current_turn());
-    if (moves.size() == 0) return {-1, -1};
+    std::vector<Move> best_moves = _search.minimax(3);
+
     std::srand(std::time(nullptr));
-    int random_i = rand() % moves.size();
-    Move random_move = moves.at(random_i);
-    bool res = _game.try_apply_move(random_move.from, random_move.to);
+    int random_i = rand() % best_moves.size();
+    Move best_move = best_moves.at(random_i);
+    std::cout << "Selected move : ";
+    best_move.print();
+    std::cout << std::endl;
+    std::cout << _game.get_fen() << std::endl;
+
+    bool res = _game.try_apply_move(best_move.from, best_move.to);
     _game.next_turn();
-    return {random_move.from, random_move.to};
+    return {best_move.from, best_move.to};
 }

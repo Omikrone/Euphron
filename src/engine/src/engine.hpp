@@ -5,6 +5,7 @@
 #include "infos.hpp"
 #include "uci_parser.hpp"
 #include "game.hpp"
+#include "search/search.hpp"
 
 #include <ctime>
 
@@ -20,6 +21,7 @@ class Engine
 
         Game _game;
         const EngineInfos _infos;
+        Search _search;
 
     public:
 

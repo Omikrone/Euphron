@@ -8,5 +8,6 @@ class Evaluation
 {
 
     public:
-        static int evaluate_board(Bitboards& board, Color player);
+        static int evaluate_board_for(Bitboards& board, Color player);
+        static int evaluate_player(Bitboards& board, Color player);
 };

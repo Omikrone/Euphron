@@ -12,7 +12,7 @@ class Search
 
         Game& _game;
 
-        int make_move(int best_score, int current_depth, int max_depth);
+        int make_move(int current_depth, int max_depth);
 
     public:
 

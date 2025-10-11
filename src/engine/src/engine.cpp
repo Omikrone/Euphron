@@ -13,7 +13,9 @@ void Engine::update_position(std::string fen, BBMove bb_move) {
 
 
 BBMove Engine::find_best_move() {
+    std::cout << _game.get_fen() << std::endl;
     std::vector<Move> best_moves = _search.minimax(3);
+    std::cout << "Number of moves : " << best_moves.size() << std::endl;
 
     std::srand(std::time(nullptr));
     int random_i = rand() % best_moves.size();
@@ -21,9 +23,9 @@ BBMove Engine::find_best_move() {
     std::cout << "Selected move : ";
     best_move.print();
     std::cout << std::endl;
-    std::cout << _game.get_fen() << std::endl;
 
     bool res = _game.try_apply_move(best_move.from, best_move.to);
+    std::cout << _game.get_fen() << std::endl;
     _game.next_turn();
     return {best_move.from, best_move.to};
 }

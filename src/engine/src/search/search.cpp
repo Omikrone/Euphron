@@ -1,13 +1,13 @@
 // search.cpp
 
 #include "search.hpp"
+#include <chrono>
 
 
 Search::Search(Game& game) : _game(game) {}
 
 
 int Search::make_move(int current_depth, int max_depth) {
-
 
     if (current_depth == max_depth) {        
         
@@ -61,7 +61,13 @@ std::vector<Move> Search::minimax(int depth) {
             std::cout << "Invalid move : " << std::endl;
         }
         //std::cout << "After move : " << _game.get_fen() << std::endl;
-        int score = make_move(0, 3);
+        auto t1 = std::chrono::high_resolution_clock::now();
+        int score = make_move(0, 2);
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+        std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+
+        std::cout << ms_int.count() << "ms\n";
         if (score == best_score) {
             best_moves.push_back(m);
         }

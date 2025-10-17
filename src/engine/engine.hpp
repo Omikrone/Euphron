@@ -2,11 +2,10 @@
 
 #pragma once
 
-#include "infos.hpp"
-#include "uci_parser.hpp"
-#include "game.hpp"
-#include "search/search.hpp"
+#include "uci/parsing/uci_parser.hpp"
+#include "engine/search/search.hpp"
 
+#include "game.hpp"
 #include <ctime>
 
 
@@ -20,7 +19,6 @@ class Engine
     private:
 
         Game _game;
-        const EngineInfos _infos;
         Search _search;
 
     public:

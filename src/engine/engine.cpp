@@ -3,7 +3,7 @@
 #include "engine.hpp"
 
 
-Engine::Engine() : _game(), _infos(), _search(_game) {}
+Engine::Engine() : _game(), _search(_game) {}
 
 
 void Engine::update_position(std::string fen, BBMove bb_move) {

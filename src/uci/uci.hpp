@@ -2,11 +2,10 @@
 
 #pragma once
 
-#include "engine.hpp"
-#include "infos.hpp"
-#include "commands.hpp"
-#include "cmd_parser.hpp"
-#include "uci_parser.hpp"
+#include "engine/engine.hpp"
+#include "uci/uci_commands.hpp"
+#include "uci/parsing/cmd_parser.hpp"
+#include "uci/parsing/uci_parser.hpp"
 
 #include <iostream>
 #include <optional>

@@ -79,7 +79,6 @@ std::string UCI::handle_command(std::string input) {
             output = go(std::nullopt, std::nullopt);
             break;
         case UCICommands::CMD_QUIT:
-
             return "quit";
         default:
             break;

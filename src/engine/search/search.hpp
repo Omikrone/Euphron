@@ -1,8 +1,8 @@
 // search.hpp
 
-#include "game.hpp"
-#include "evaluation/evaluation.hpp"
+#include "engine/evaluation/evaluation.hpp"
 
+#include "game.hpp"
 #include <vector>
 
 

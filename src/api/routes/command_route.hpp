@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "uci.hpp"
+#include "uci/uci.hpp"
 
 // Turns off the warning of unreachable code in crow
 #pragma warning(push)

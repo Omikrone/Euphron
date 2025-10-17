@@ -1,8 +1,8 @@
-// parser.hpp
+// cmd_parser.hpp
 
 #pragma once
 
-#include "commands.hpp"
+#include "uci/uci_commands.hpp"
 
 #include <cstring>
 #include <string>

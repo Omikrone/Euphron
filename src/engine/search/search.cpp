@@ -8,26 +8,26 @@
 Search::Search(Game& game) : _game(game) {}
 
 
-int Search::make_move(int current_depth, int max_depth) {
+int Search::node(int current_depth, int max_depth) {
+
+    _game.next_turn();
+    Color current_turn = _game.get_current_turn();
 
     if (current_depth == max_depth) {        
-        
-        return Evaluation::evaluate_board_for(_game.get_board(), Color::BLACK);
+        EndGame state = _game.get_game_state();
+        if (state == EndGame::STALEMATE) return 0;
+        else if (state == EndGame::CHECKMATE && current_turn == Color::BLACK) return -1000000;
+        else if (state == EndGame::CHECKMATE) return 1000000;
+        else return Evaluation::evaluate_board_for(_game.get_board(), Color::BLACK);
     }
 
     int score;
     int best_score;
 
-    _game.next_turn();
-    //std::cout << "Current depth : " << current_depth << std::endl;
-    //std::cout << "Before legal moves : " << _game.get_fen() << std::endl;
-
-    Color current_turn = _game.get_current_turn();
     std::vector<Move> moves = _game.get_legal_moves(current_turn);
 
     if (current_turn == Color::WHITE) best_score = 200000; // Extremum to update
     else best_score = -200000;
-    //std::cout << "After legal moves : " << _game.get_fen() << std::endl;
 
     for (Move& move: moves) {
         
@@ -36,7 +36,7 @@ int Search::make_move(int current_depth, int max_depth) {
             move.print();
             std::cout <<"Invalid move : " << std::endl;
         }
-        score = make_move(current_depth + 1, max_depth);
+        score = node(current_depth + 1, max_depth);
         _game.unmake_move();
         if (current_turn == Color::WHITE && score < best_score) best_score = score; // White tries to minimize black score
         else if (current_turn == Color::BLACK && score > best_score) best_score = score; // Black wants to maximize its score
@@ -54,16 +54,12 @@ std::vector<Move> Search::minimax(int depth) {
     Color current_turn = _game.get_current_turn();
     std::vector<Move> moves = _game.get_legal_moves(current_turn);
     for (Move& m : moves) {
-        //std::cout << "first depth : ";
-        //m.print();
-        //std::cout << "Before move : " << _game.get_fen() << std::endl;
         bool res = _game.try_apply_move(m.from, m.to);
         if (!res) {
             std::cout << "Invalid move : " << std::endl;
         }
-        //std::cout << "After move : " << _game.get_fen() << std::endl;
         auto t1 = std::chrono::high_resolution_clock::now();
-        int score = make_move(0, 2);
+        int score = node(0, depth - 1);
         auto t2 = std::chrono::high_resolution_clock::now();
         auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
         std::chrono::duration<double, std::milli> ms_double = t2 - t1;
@@ -73,9 +69,6 @@ std::vector<Move> Search::minimax(int depth) {
             best_moves.push_back(m);
         }
         else if (score > best_score) {
-            //std::cout << "Move : ";
-            m.print();
-            //std::cout << " with score : " << score << std::endl;
             best_score = score;
             best_moves.clear(); // TODO : clear only move with inferior scoree
             best_moves.push_back(m);

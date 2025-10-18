@@ -7,7 +7,6 @@ int Evaluation::evaluate_board_for(Bitboards& board, Color player) {
     int player_score = Evaluation::evaluate_player(board, player);
     Color opponent = (player == Color::WHITE) ? Color::BLACK : Color::WHITE;
     int opponent_score = Evaluation::evaluate_player(board, opponent);
-    //std::cout << "Opponent score : " << opponent_score << " Player score : " << player_score << std::endl;
     return (player_score - opponent_score);
 }
 

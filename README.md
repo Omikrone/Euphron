@@ -5,13 +5,15 @@
 
 Euphron is a chess engine developed in C++ that aims to provide a strong and efficient playing experience. It is designed to be compatible with my [Chessgame](https://github.com/Omikrone/Chessgame) project, allowing users to play against the engine or use it for analysis. It uses the [Chessboard](https://github.com/Omikrone/Chessboard) library for handling the chessboard and game logic.
 
-- Current version : 0.0.0
+- Current version : 0.0.1
 
 ## Features
 
 - Implements the UCI (Universal Chess Interface) protocol for easy integration with chess GUIs.
 - Implements an API Wrapper for communication with the Chessgame project.
-- Generation of random legal moves.
+- Basic evaluation function considering only material balance.
+- Minimax search algorithm for move selection.
+
 
 ## Installation
 

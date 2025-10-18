@@ -13,7 +13,16 @@ void Engine::update_position(std::string fen, BBMove bb_move) {
 
 
 BBMove Engine::find_best_move() {
+
+    auto t1 = std::chrono::high_resolution_clock::now();
     std::vector<Move> best_moves = _search.minimax(2);
+    if (best_moves.size() == 0) return {-1, -1};
+
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto ms_int = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+    std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+
+    std::cout << "Move found in " << ms_int.count() << "ms\n";
 
     std::srand(std::time(nullptr));
     int random_i = rand() % best_moves.size();

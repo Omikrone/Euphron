@@ -15,7 +15,7 @@ void Engine::update_position(std::string fen, BBMove bb_move) {
 BBMove Engine::find_best_move() {
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    std::vector<Move> best_moves = _search.minimax(2);
+    std::vector<Move> best_moves = _search.minimax(3);
     if (best_moves.size() == 0) return {-1, -1};
 
     auto t2 = std::chrono::high_resolution_clock::now();

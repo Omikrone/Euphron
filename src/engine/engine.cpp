@@ -8,14 +8,19 @@ Engine::Engine() : _game(), _search(_game) {}
 
 void Engine::update_position(std::string fen, BBMove bb_move) {
     bool res = _game.try_apply_move(bb_move.from, bb_move.to);
+    if (!res) {
+        std::cout << "Invalid move received: " << std::endl;
+        std::cout << bb_move.from << " " << bb_move.to;
+    }
     _game.next_turn();
 }
 
 
 BBMove Engine::find_best_move() {
+    std::cout << _game.get_fen() << std::endl;
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    std::vector<Move> best_moves = _search.minimax(3);
+    std::vector<Move> best_moves = _search.minimax(2);
     if (best_moves.size() == 0) return {-1, -1};
 
     auto t2 = std::chrono::high_resolution_clock::now();

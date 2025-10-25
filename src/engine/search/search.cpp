@@ -15,6 +15,7 @@ int Search::node(int current_depth, int max_depth) {
 
     if (current_depth == max_depth) {        
         EndGame state = _game.get_game_state();
+        _game.next_turn();
         if (state == EndGame::STALEMATE) return 0;
         else if (state == EndGame::CHECKMATE && current_turn == Color::BLACK) return -1000000;
         else if (state == EndGame::CHECKMATE) return 1000000;

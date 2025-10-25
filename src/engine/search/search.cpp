@@ -74,5 +74,6 @@ std::vector<Move> Search::minimax(int depth) {
     int current_score = Evaluation::evaluate_board_for(_game.get_board(), Color::BLACK);
     std::cout << "Final score relative to current position : " << best_score - current_score << std::endl;
     std::cout << "End of minimax" << std::endl;
-    return best_moves;
+    if (best_moves.size() > 0) return best_moves;
+    else return moves;
 }

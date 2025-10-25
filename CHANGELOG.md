@@ -1,6 +1,17 @@
 # Change Log
 
 
+## [0.1.2] - 2025-10-25
+
+### Added
+
+- Added compatibility with Chessboard library version 1.3.0.
+
+### Fixed
+
+- Fixed the engine not switching turns correctly during search, leading to incorrect evaluations and crashes.
+
+
 ## [0.1.1] - 2025-10-25
 
 ### Fixed

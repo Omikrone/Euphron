@@ -1,6 +1,13 @@
 # Change Log
 
 
+## [0.1.1] - 2025-10-25
+
+### Fixed
+
+- Fixed the case when the engine crashes if no best moves were found.
+
+
 ## [0.1.0] - 2025-10-19
 
 ### Added

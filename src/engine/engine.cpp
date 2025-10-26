@@ -6,12 +6,7 @@
 Engine::Engine() : _game(), _search(_game) {}
 
 
-void Engine::update_position(std::string fen) {
-    _game.load_fen(fen);
-}
-
-
-void Engine::play_move(BBMove bb_move) {
+void Engine::update_position(std::string fen, BBMove bb_move) {
     bool res = _game.try_apply_move(bb_move.from, bb_move.to);
     if (!res) {
         std::cout << "Invalid move received: " << std::endl;

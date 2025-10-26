@@ -8,16 +8,10 @@
 #include "uci/parsing/uci_parser.hpp"
 
 #include <iostream>
-#include <sstream>
 #include <optional>
 #include <cstdint>
 #include <vector>
 #include <unordered_map>
-#include <format>
-#include <string>
-#include <string_view>
-#include <set>
-
 
 /**
  * @brief Class responsible for the UCI Interface.
@@ -32,19 +26,13 @@ class UCI
 
         Engine *_engine;
 
-        /**
-         * @brief Splits an input into the different parts of a command.
-         * 
-         * @param s The input to split.
-         */
-        std::vector<std::string> split(const std::string& s);
 
         /**
          * @brief Selects the corresponding engine to the game.
          *
          * @param game_id The id of the game in which the engine plays.
          */
-        void select_engine(std::vector<std::string>& args);
+        void select_engine(uint64_t game_id);
 
 
         /**
@@ -68,7 +56,7 @@ class UCI
          *
          * @param game_id The id of the new game.
          */
-        void new_game(std::vector<std::string>& args);
+        void new_game(uint64_t game_id);
 
 
         /**
@@ -77,7 +65,7 @@ class UCI
          * @param pos A string representing the FEN notation of the current game state.
          * @param uci_move The move to play to be updated.
          */
-        void position(std::vector<std::string>& args);
+        void position(const std::string pos, UCIMove uci_move);
 
 
         /**
@@ -87,7 +75,7 @@ class UCI
          * @param b_time Maximal search depth granted to the engine.
          * @return A string representing the best move found.
          */
-        const std::string go(std::vector<std::string>& args);
+        const std::string go(const std::optional<uint32_t> w_time, const std::optional<uint32_t> b_time);
 
 
         /**
@@ -104,7 +92,7 @@ class UCI
          * 
          * @param game_id The id of the game in which the engine must exit.
          */
-        void quit();
+        void quit(uint64_t game_id);
 
     public:
 

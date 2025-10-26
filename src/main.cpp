@@ -1,5 +1,6 @@
 #include "uci/uci.hpp"
 #include "api/routes/command_route.hpp"
+#include "api/controllers/engine_controller.hpp"
 
 
 #include "crow.h"
@@ -11,10 +12,9 @@ using namespace crow;
 int main() {
 
     crow::App<crow::CORSHandler> app;
-    std::vector<std::unique_ptr<Game>> games;
+    EngineController controller;
 
-    UCI interface;
-    register_command_routes(app, interface);
+    register_engine_routes(app, controller);
 
     // Runs the app on port 18088
     app.port(18088).multithreaded().run();

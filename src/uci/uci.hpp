@@ -27,10 +27,7 @@
 class UCI
 {
     private:
-
-        std::unordered_map<uint64_t, Engine> _engines;
-
-        Engine *_engine;
+        Engine _engine;
 
         /**
          * @brief Splits an input into the different parts of a command.
@@ -38,13 +35,6 @@ class UCI
          * @param s The input to split.
          */
         std::vector<std::string> split(const std::string& s);
-
-        /**
-         * @brief Selects the corresponding engine to the game.
-         *
-         * @param game_id The id of the game in which the engine plays.
-         */
-        void select_engine(std::vector<std::string>& args);
 
 
         /**
@@ -68,7 +58,7 @@ class UCI
          *
          * @param game_id The id of the new game.
          */
-        void new_game(std::vector<std::string>& args);
+        void new_game();
 
 
         /**
@@ -108,7 +98,7 @@ class UCI
 
     public:
 
-        UCI() = default;
+        UCI();
         ~UCI() = default;
 
         /**

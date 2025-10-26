@@ -3,6 +3,7 @@
 #pragma once
 
 #include "uci/uci.hpp"
+#include "api/controllers/engine_controller.hpp"
 
 // Turns off the warning of unreachable code in crow
 #pragma warning(push)
@@ -10,6 +11,7 @@
 #include "crow.h"
 #include "crow/middlewares/cors.h"
 #pragma warning(pop)
+#include <string>
 
 
 /**
@@ -18,4 +20,4 @@
  * @param app The Crow app in which to register the routes.
  * @param uci The instance for handling the commands.
  */
-void register_command_routes(crow::App<crow::CORSHandler>& app, UCI& uci);
+void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController& controller);

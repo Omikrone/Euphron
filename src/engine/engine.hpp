@@ -29,12 +29,18 @@ class Engine
         ~Engine() = default;
 
         /**
-         * @brief Updates the internal game board of the engine.
+         * @brief Updates the internal game board of the engine with a position.
          *
          * @param fen A string respresenting the FEN notation of the game state.
-         * @param bb_move The move to play to be updated.
          */
-        void update_position(std::string fen, BBMove bb_move);
+        void update_position(std::string fen);
+
+        /**
+         * @brief Updates the internal game board of the engine by playing a move.
+         *
+         * @param move The move to play.
+         */
+        void play_move(BBMove& move);
 
         /**
          * @brief Finds the best move to play for the engine in the current position.

@@ -3,12 +3,23 @@
 #include "uci.hpp"
 
 
-void UCI::select_engine(uint64_t game_id) {
+std::vector<std::string> UCI::split(const std::string& s) {
+    std::istringstream iss(s);
+    std::vector<std::string> tokens;
+    std::string token;
+    while (iss >> token) tokens.push_back(token);
+    return tokens;
+}
+
+
+void UCI::select_engine(std::vector<std::string>& args) {
+    int game_id = std::atoi(args.at(1).c_str());
     std::cout << "Selected engine with gameID : " << std::to_string(game_id) << std::endl;
     auto it = _engines.find(game_id);
     if (it == _engines.end()) _engine = nullptr;
     _engine = &it->second;
 }
+
 
 const std::string UCI::get_infos() const {
     std::string response = "id name Euphron \
@@ -23,25 +34,43 @@ const std::string UCI::is_ready() const {
 }
 
 
-void UCI::new_game(uint64_t game_id) {
+void UCI::new_game(std::vector<std::string>& args) {
+    int game_id = std::atoi(args.at(1).c_str());
     _engines.try_emplace(game_id);
 }
 
 
-void UCI::position(const std::string pos, UCIMove uci_move) {
-    BBMove move = UCIParser::uci_to_bb(uci_move);
-    _engine->update_position(pos, move);
+void UCI::position(std::vector<std::string>& args) {
+    int pointer = 0;
+    if (args[1] == "startpos") {
+        _engine->update_position(args[1]);
+        pointer = 2;
+    }
+    else if (args[1] == "fen") {
+        std::string fen;
+        fen = std::format("{} {} {} {} {} {}", args[2], args[3], args[4], args[5], args[6], args[7]);
+        _engine->update_position(fen);
+        pointer = 8;
+    }
+    if (args.size() > pointer && args[pointer] == "moves") {
+        for (size_t i = pointer + 1; i < args.size(); i++)
+        {
+            BBMove move = UCIParser::uci_to_bb({args[i]});
+            _engine->play_move(move);
+        }   
+    }
 }
 
 
-const std::string UCI::go(const std::optional<uint32_t> w_time, const std::optional<uint32_t> b_time) {
+const std::string UCI::go(std::vector<std::string>& args) {
     BBMove best_move = _engine->find_best_move();
     UCIMove uci_move = UCIParser::bb_to_uci(best_move);
     return "bestmove " + uci_move.move;
 }
 
-void UCI::quit(uint64_t game_id) {
-    _engines.erase(game_id);
+
+void UCI::quit() {
+    exit(EXIT_SUCCESS);
 }
 
 
@@ -49,14 +78,15 @@ std::string UCI::handle_command(std::string input) {
 
     std::string output;
 
-    std::optional<UCICommands> cmd = CommandParser::parse_command(input);
-    if (cmd == std::nullopt) {
-        std::cout << "Unknown command. Please retry." << std::endl;
-        return "error";
-    }
-    std::string game_id;
+    std::vector args = UCI::split(input);
 
-    switch (cmd.value())
+    std::optional<UCICommands> uci_cmd = CommandParser::parse_command(args.at(0));
+    if (uci_cmd == std::nullopt) {
+        std::cout << "Unknown command. Please retry." << std::endl;
+        return "Unknown command. Please retry.";
+    }
+
+    switch (uci_cmd.value())
     {
         case UCICommands::CMD_UCI:
             output = get_infos();
@@ -65,21 +95,20 @@ std::string UCI::handle_command(std::string input) {
             output = is_ready();
             break;
         case UCICommands::CMD_SELECT:
-            game_id = CommandParser::parse_argument(input);
-            select_engine(std::stoi(game_id));
+            select_engine(args);
             break;
         case UCICommands::CMD_UCI_NEW_GAME:
-            game_id = CommandParser::parse_argument(input);
-            new_game(std::stoi(game_id));
+            new_game(args);
             break;
         case UCICommands::CMD_POSITION:
-            position("startpos", {input.substr(input.size() - 4)});
+            position(args);
             break;
         case UCICommands::CMD_GO:
-            output = go(std::nullopt, std::nullopt);
+            output = go(args);
             break;
         case UCICommands::CMD_QUIT:
-            return "quit";
+            quit();
+            break;
         default:
             break;
     }

@@ -1,5 +1,7 @@
 // engine_controller.hpp
 
+#pragma once
+
 #include "engine/engine.hpp"
 #include "uci/uci.hpp"
 
@@ -14,7 +16,7 @@ class EngineController
         
     public:
         EngineController() = default;
-        ~EngineController();
+        ~EngineController() = default;
 
         uint64_t create_session();
         UCI &get_session(uint64_t session_id);

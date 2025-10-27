@@ -8,6 +8,7 @@ Engine::Engine() : _game(), _search(_game) {}
 
 void Engine::update_position(std::string fen) {
     _game.load_fen(fen);
+    std::cout << "FEN after update : " << _game.get_fen() << std::endl;
 }
 
 

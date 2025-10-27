@@ -16,5 +16,5 @@ class Console
         Console() = default;
         ~Console() = default;
 
-        void run() const;
+        void run();
 };

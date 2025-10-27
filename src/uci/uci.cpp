@@ -35,6 +35,7 @@ void UCI::new_game() {
 
 
 void UCI::position(std::vector<std::string>& args) {
+    std::cout << args.size() << std::endl;
     int pointer = 0;
     if (args[1] == "startpos") {
         _engine.update_position(args[1]);
@@ -43,12 +44,15 @@ void UCI::position(std::vector<std::string>& args) {
     else if (args[1] == "fen") {
         std::string fen;
         fen = std::format("{} {} {} {} {} {}", args[2], args[3], args[4], args[5], args[6], args[7]);
+        std::cout << fen << std::endl;
         _engine.update_position(fen);
         pointer = 8;
     }
+    std::cout << "Pointer value : " << args[pointer + 1] << std::endl;
     if (args.size() > pointer && args[pointer] == "moves") {
         for (size_t i = pointer + 1; i < args.size(); i++)
         {
+            std::cout << "apply move" << std::endl;
             BBMove move = UCIParser::uci_to_bb({args[i]});
             _engine.play_move(move);
         }   
@@ -72,11 +76,12 @@ std::string UCI::handle_command(std::string input) {
 
     std::string output;
 
+    std::cout << input << std::endl;
     std::vector args = UCI::split(input);
+    std::cout << args.size() << std::endl;
 
     std::optional<UCICommands> uci_cmd = CommandParser::parse_command(args.at(0));
     if (uci_cmd == std::nullopt) {
-        std::cout << "Unknown command. Please retry." << std::endl;
         return "Unknown command. Please retry.";
     }
 

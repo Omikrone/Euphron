@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     
     if (force_http) {
         crow::App<crow::CORSHandler> app;
-        EngineController controller;
+        EngineController controller = EngineController();
 
         register_engine_routes(app, controller);
 

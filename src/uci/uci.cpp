@@ -16,8 +16,8 @@ std::vector<std::string> UCI::split(const std::string& s) {
 
 
 const std::string UCI::get_infos() const {
-    std::string response = "id name Euphron \
-                            id author Omikrone \
+    std::string response = "id name Euphron \n\
+                            id author Omikrone \n\
                             uciok";
     return response;
 }

@@ -59,14 +59,6 @@ void UCI::position(std::vector<std::string>& args) {
     }
 }
 
-
-const std::string UCI::go(std::vector<std::string>& args) {
-    BBMove best_move = _engine.find_best_move();
-    UCIMove uci_move = UCIParser::bb_to_uci(best_move);
-    return "bestmove " + uci_move.move;
-}
-
-
 void UCI::quit() {
     exit(EXIT_SUCCESS);
 }

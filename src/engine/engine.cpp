@@ -22,7 +22,7 @@ void Engine::play_move(BBMove& bb_move) {
 }
 
 
-BBMove Engine::find_best_move() {
+BBMove Engine::find_best_move(int depth) {
     std::cout << _game.get_fen() << std::endl;
 
     auto t1 = std::chrono::high_resolution_clock::now();

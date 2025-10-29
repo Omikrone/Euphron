@@ -71,16 +71,6 @@ class UCI
 
 
         /**
-         * @brief Handles the "go" command : Searches for the best move to play in the current position.
-         *
-         * @param w_time Maximal time granted to the engine for the search.
-         * @param b_time Maximal search depth granted to the engine.
-         * @return A string representing the best move found.
-         */
-        const std::string go(std::vector<std::string>& args);
-
-
-        /**
          * @brief Handles the "stop" command : Interrupts the search of the engine.
          * 
          * @warning Not implemented yet.

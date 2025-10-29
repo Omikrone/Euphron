@@ -47,5 +47,5 @@ class Engine
          *
          * @return The best move found.
          */
-        BBMove find_best_move();
+        BBMove find_best_move(int depth);
 };

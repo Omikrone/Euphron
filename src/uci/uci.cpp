@@ -15,55 +15,6 @@ std::vector<std::string> UCI::split(const std::string& s) {
 }
 
 
-const std::string UCI::get_infos() const {
-    std::string response = "id name Euphron \n\
-                            id author Omikrone \n\
-                            uciok";
-    return response;
-}
-
-
-const std::string UCI::is_ready() const {
-    return "readyok";
-}
-
-
-void UCI::new_game() {
-    std::string new_game_cmd = "position startpos";
-    handle_command(new_game_cmd);
-}
-
-
-void UCI::position(std::vector<std::string>& args) {
-    std::cout << args.size() << std::endl;
-    int pointer = 0;
-    if (args[1] == "startpos") {
-        _engine.update_position(args[1]);
-        pointer = 2;
-    }
-    else if (args[1] == "fen") {
-        std::string fen;
-        fen = std::format("{} {} {} {} {} {}", args[2], args[3], args[4], args[5], args[6], args[7]);
-        std::cout << fen << std::endl;
-        _engine.update_position(fen);
-        pointer = 8;
-    }
-    std::cout << "Pointer value : " << args[pointer + 1] << std::endl;
-    if (args.size() > pointer && args[pointer] == "moves") {
-        for (size_t i = pointer + 1; i < args.size(); i++)
-        {
-            std::cout << "apply move" << std::endl;
-            BBMove move = UCIParser::uci_to_bb({args[i]});
-            _engine.play_move(move);
-        }   
-    }
-}
-
-void UCI::quit() {
-    exit(EXIT_SUCCESS);
-}
-
-
 std::string UCI::handle_command(std::string input) {
 
     std::string output;
@@ -86,13 +37,13 @@ std::string UCI::handle_command(std::string input) {
             output = is_ready();
             break;
         case UCICommands::CMD_UCI_NEW_GAME:
-            new_game();
+            new_game(_engine);
             break;
         case UCICommands::CMD_POSITION:
-            position(args);
+            position(args, _engine);
             break;
         case UCICommands::CMD_GO:
-            output = go(args);
+            output = go(args, _engine);
             break;
         case UCICommands::CMD_QUIT:
             quit();

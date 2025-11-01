@@ -3,7 +3,7 @@
 #include "position.hpp"
 
 
-const std::string position(std::vector<std::string>& args, Engine& engine) {
+void position(std::vector<std::string>& args, Engine& engine) {
     std::cout << args.size() << std::endl;
     int pointer = 0;
     if (args[1] == "startpos") {
@@ -29,7 +29,7 @@ const std::string position(std::vector<std::string>& args, Engine& engine) {
 }
 
 
-const std::map<POSITION_OPTIONS, std::string> parse_args(std::vector<std::string>& args) {
+const std::map<POSITION_OPTIONS, std::string> parse_position_args(std::vector<std::string>& args) {
     std::map<POSITION_OPTIONS, std::string> options;
 
     for (int i=0; i < args.size(); i++)
@@ -41,4 +41,5 @@ const std::map<POSITION_OPTIONS, std::string> parse_args(std::vector<std::string
             options.emplace(POSITION_OPTIONS::MOVES, args[i + 1]);
         }
     }
+    return options;
 }

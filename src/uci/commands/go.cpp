@@ -2,14 +2,14 @@
 
 
 const std::string go(std::vector<std::string>& args, Engine& engine) {
-    std::map<GO_OPTIONS, std::string> go_options = parse_args(args);
+    std::map<GO_OPTIONS, std::string> go_options = parse_go_args(args);
     BBMove best_move = engine.find_best_move(3);
     UCIMove uci_move = UCIParser::bb_to_uci(best_move);
     return "bestmove " + uci_move.move;
 }
 
 
-const std::map<GO_OPTIONS, std::string> parse_args(std::vector<std::string>& args) {
+const std::map<GO_OPTIONS, std::string> parse_go_args(std::vector<std::string>& args) {
     std::map<GO_OPTIONS, std::string> options;
 
     for (int i=0; i < args.size(); i++)
@@ -36,4 +36,5 @@ const std::map<GO_OPTIONS, std::string> parse_args(std::vector<std::string>& arg
             options.emplace(GO_OPTIONS::DEPTH, args[i + 1]);
         }
     }
+    return options;
 }

@@ -43,13 +43,6 @@ class UCI
          * @param s The input to split.
          */
         std::vector<std::string> split(const std::string& s);
-        
-        /**
-         * @brief Handles the "quit" command : Terminates the engine's process and clean the data.
-         * 
-         * @param game_id The id of the game in which the engine must exit.
-         */
-        void quit();
 
     public:
 

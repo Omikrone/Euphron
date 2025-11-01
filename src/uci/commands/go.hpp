@@ -36,4 +36,4 @@ const std::string go(std::vector<std::string>& args, Engine& engine);
  * @param args Vector of the command arguments.
  * @return A map of the arguments associated to their value.
  */
-const std::map<GO_OPTIONS, std::string> parse_args(std::vector<std::string>& args);
+const std::map<GO_OPTIONS, std::string> parse_go_args(std::vector<std::string>& args);

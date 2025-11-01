@@ -19,9 +19,8 @@ enum class POSITION_OPTIONS {
  *
  * @param args Vector of arguments specified by the user.
  * @param engine The engine.
- * @return A string representing the output of the command.
  */
-const std::string position(std::vector<std::string>& args, Engine& engine);
+void position(std::vector<std::string>& args, Engine& engine);
 
 
 /**
@@ -30,4 +29,4 @@ const std::string position(std::vector<std::string>& args, Engine& engine);
  * @param args Vector of the command arguments.
  * @return A map of the arguments associated to their value.
  */
-const std::map<POSITION_OPTIONS, std::string> parse_args(std::vector<std::string>& args);
+const std::map<POSITION_OPTIONS, std::string> parse_position_args(std::vector<std::string>& args);

@@ -4,41 +4,43 @@
 
 
 void position(std::vector<std::string>& args, Engine& engine) {
-    std::cout << args.size() << std::endl;
-    int pointer = 0;
-    if (args[1] == "startpos") {
-        engine.update_position(args[1]);
-        pointer = 2;
+    std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>> position_options = parse_position_args(args);
+
+    if (position_options.find(POSITION_OPTIONS::STARTPOS) != position_options.end()) {
+        engine.update_position("startpos");
     }
-    else if (args[1] == "fen") {
-        std::string fen;
-        fen = std::format("{} {} {} {} {} {}", args[2], args[3], args[4], args[5], args[6], args[7]);
-        std::cout << fen << std::endl;
+    else if (position_options.find(POSITION_OPTIONS::FEN) != position_options.end()) {
+        std::string fen = std::get<std::string>(position_options[POSITION_OPTIONS::FEN]);
+        // TODO: Handle FEN with spaces
         engine.update_position(fen);
-        pointer = 8;
     }
-    std::cout << "Pointer value : " << args[pointer + 1] << std::endl;
-    if (args.size() > pointer && args[pointer] == "moves") {
-        for (size_t i = pointer + 1; i < args.size(); i++)
-        {
-            std::cout << "apply move" << std::endl;
-            BBMove move = UCIParser::uci_to_bb({args[i]});
+
+    if (position_options.find(POSITION_OPTIONS::MOVES) != position_options.end()) {
+        for (BBMove& move : std::get<std::vector<BBMove>>(position_options[POSITION_OPTIONS::MOVES])) {
             engine.play_move(move);
-        }   
+        }
     }
 }
 
 
-const std::map<POSITION_OPTIONS, std::string> parse_position_args(std::vector<std::string>& args) {
-    std::map<POSITION_OPTIONS, std::string> options;
+const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>> parse_position_args(std::vector<std::string>& args) {
+    std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>> options;
 
     for (int i=0; i < args.size(); i++)
     {
-        if (args[i] == "wtime") {
-            options.emplace(POSITION_OPTIONS::FEN, args[i + 1]);
+        if (args[i] == "startpos") {
+            options.emplace(POSITION_OPTIONS::STARTPOS, "");
         }
-        else if (args[i] == "btime") {
-            options.emplace(POSITION_OPTIONS::MOVES, args[i + 1]);
+        else if (args[i] == "fen") {
+            std::string fen = std::format("{} {} {} {} {} {}", args[i+1], args[i+2], args[i+3], args[i+4], args[i+5], args[i+6]);
+            options.emplace(POSITION_OPTIONS::FEN, fen);
+        }
+        else if (args[i] == "moves") {
+            std::vector<BBMove> moves;
+            for (size_t j = i + 1; j < args.size(); j++) {
+                moves.push_back(UCIParser::uci_to_bb({args[j]}));
+            }
+            options.emplace(POSITION_OPTIONS::MOVES, moves);
         }
     }
     return options;

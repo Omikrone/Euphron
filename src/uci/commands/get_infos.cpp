@@ -2,8 +2,8 @@
 
 
 const std::string get_infos() {
-    std::string response = "id name Euphron \n\
-                            id author Omikrone \n\
-                            uciok";
+    std::string response = "id name Euphron \n";
+    response += "id author Omikrone \n";
+    response += "uciok";
     return response;
 }

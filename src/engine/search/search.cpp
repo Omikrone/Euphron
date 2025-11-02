@@ -47,10 +47,9 @@ int Search::node(int current_depth, int max_depth) {
 }
 
 
-std::vector<Move> Search::minimax(int depth) {
+void Search::minimax(int depth, std::vector<Move>& best_moves) {
     std::cout << "beginning minimax" << std::endl;
     int best_score = -200000;
-    std::vector<Move> best_moves;
 
     Color current_turn = _game.get_current_turn();
     std::vector<Move> moves = _game.get_legal_moves(current_turn);
@@ -67,7 +66,7 @@ std::vector<Move> Search::minimax(int depth) {
         }
         else if (score > best_score) {
             best_score = score;
-            best_moves.clear(); // TODO : clear only move with inferior scoree
+            best_moves.clear(); // TODO : clear only move with inferior score
             best_moves.push_back(m);
         }
         _game.unmake_move();
@@ -75,6 +74,5 @@ std::vector<Move> Search::minimax(int depth) {
     int current_score = Evaluation::evaluate_board_for(_game.get_board(), Color::BLACK);
     std::cout << "Final score relative to current position : " << best_score - current_score << std::endl;
     std::cout << "End of minimax" << std::endl;
-    if (best_moves.size() > 0) return best_moves;
-    else return moves;
+    if (best_moves.size() == 0) best_moves = moves;
 }

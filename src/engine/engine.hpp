@@ -8,6 +8,7 @@
 #include "game.hpp"
 #include <ctime>
 #include <chrono>
+#include <thread>
 
 
 /**
@@ -21,6 +22,7 @@ class Engine
 
         Game _game;
         Search _search;
+        std::thread _search_thread;
 
     public:
 
@@ -48,4 +50,10 @@ class Engine
          * @return The best move found.
          */
         BBMove find_best_move(int depth);
+
+        /**
+         * @brief Stops the current search.
+         * 
+         */
+        void stop_search();
 };

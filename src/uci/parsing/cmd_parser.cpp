@@ -19,7 +19,7 @@ const std::optional<UCICommands> CommandParser::parse_command(std::string comman
 
     if (strcmp(input_ptr, "uci")==0)         return UCICommands::CMD_UCI;
     if (strcmp(input_ptr, "isready")==0)     return UCICommands::CMD_IS_READY;
-    if (strcmp(input_ptr, "ucinewgame")==0)    return UCICommands::CMD_UCI_NEW_GAME;
+    if (strcmp(input_ptr, "ucinewgame")==0)  return UCICommands::CMD_UCI_NEW_GAME;
     if (strcmp(input_ptr, "select")==0)      return UCICommands::CMD_SELECT;
     if (strcmp(input_ptr, "position")==0)    return UCICommands::CMD_POSITION;
     if (strcmp(input_ptr, "go")==0)          return UCICommands::CMD_GO;

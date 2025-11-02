@@ -24,9 +24,13 @@ void Engine::play_move(BBMove& bb_move) {
 
 BBMove Engine::find_best_move(int depth) {
     std::cout << _game.get_fen() << std::endl;
+    std::vector<Move> best_moves;
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    std::vector<Move> best_moves = _search.minimax(3);
+    std::thread _search_thread(&Search::minimax, this, depth, std::ref(best_moves));
+
+    _search_thread.join();
+
     if (best_moves.size() == 0) return {-1, -1};
 
     auto t2 = std::chrono::high_resolution_clock::now();
@@ -43,4 +47,9 @@ BBMove Engine::find_best_move(int depth) {
     std::cout << _game.get_fen() << std::endl;
     _game.next_turn();
     return {best_move.from, best_move.to};
+}
+
+
+void Engine::stop_search() {
+    // Not implemented yet
 }

@@ -37,5 +37,5 @@ class Search
          * @param depth The maximum depth for the search.
          * @return A vector of the "best" moves to play.
          */
-        std::vector<Move> minimax(int depth);
+        void minimax(int depth, std::vector<Move>& best_moves);
 };

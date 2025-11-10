@@ -4,6 +4,7 @@
 
 #include "uci/parsing/uci_parser.hpp"
 #include "engine/search/search.hpp"
+#include "io/uci_io.hpp"
 
 #include "game.hpp"
 #include <ctime>
@@ -23,10 +24,11 @@ class Engine
         Game _game;
         Search _search;
         std::thread _search_thread;
+        IEngineIO& _engine_io;
 
     public:
 
-        Engine();
+        Engine(IEngineIO& engine_io);
 
         ~Engine() = default;
 
@@ -49,7 +51,7 @@ class Engine
          *
          * @return The best move found.
          */
-        BBMove find_best_move(int depth);
+        void find_best_move(int depth);
 
         /**
          * @brief Stops the current search.

@@ -10,6 +10,7 @@ class Console
 {
     private:
         UCI _uci;
+        std::vector<std::thread> _uci_threads;
 
     public:
 

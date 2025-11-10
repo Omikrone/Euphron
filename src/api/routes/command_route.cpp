@@ -27,12 +27,5 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
     // Creates a new POST route for sending a command to a session
     CROW_ROUTE(app, "/engine/<int>").methods("POST"_method)
     ([&app, &controller](const crow::request& req, int engine_id){
-
-        UCI& uci = controller.get_session(engine_id);
-
-        // Sends a command to the engine
-        std::string out = uci.handle_command(req.body);
-
-        return crow::response(200, out);
     });
 }

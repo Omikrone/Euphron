@@ -11,10 +11,14 @@ void Console::run() {
     {
         std::cout << ">> ";
         std::getline(std::cin, input);
+        if (input.empty()) continue;
 
-        output = _uci.handle_command(input);
-        std::cout << output << '\n' << std::flush;
+        _uci_threads.emplace_back([this, input]() {
+            std::string output = _uci.handle_command(input);
+            std::cout << output << '\n' << std::flush;
+        });
+
         if (input == "quit") exit(EXIT_SUCCESS);
     }
-    
+
 }

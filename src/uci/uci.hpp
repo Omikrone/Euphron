@@ -36,7 +36,8 @@ class UCI
 {
     private:
         Engine _engine;
-
+        IEngineIO& _engine_io;
+        
         /**
          * @brief Splits an input into the different parts of a command.
          * 
@@ -46,7 +47,7 @@ class UCI
 
     public:
 
-        UCI();
+        UCI(IEngineIO& engine_io);
         ~UCI() = default;
 
         /**

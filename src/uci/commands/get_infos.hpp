@@ -8,4 +8,4 @@
  *
  * @return A string representing the informations.
  */
-const std::string get_infos();
+void get_infos(IEngineIO& engine_io);

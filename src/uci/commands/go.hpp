@@ -27,7 +27,7 @@ enum class GO_OPTIONS {
  * @param engine The engine.
  * @return A string representing the output of the command.
  */
-const std::string go(std::vector<std::string>& args, Engine& engine);
+void go(std::vector<std::string>& args, Engine& engine);
 
 
 /**

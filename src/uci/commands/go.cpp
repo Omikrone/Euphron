@@ -1,11 +1,10 @@
 #include "go.hpp"
 
 
-const std::string go(std::vector<std::string>& args, Engine& engine) {
+void go(std::vector<std::string>& args, Engine& engine) {
     std::map<GO_OPTIONS, std::string> go_options = parse_go_args(args);
     std::cout << "GO options parsed: " << go_options.size() << std::endl;
     engine.find_best_move(3);
-    return "bestmove " + uci_move.move;
 }
 
 

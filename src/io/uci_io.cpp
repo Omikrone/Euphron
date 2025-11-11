@@ -4,6 +4,6 @@
 #include <string>
 
 
-void IEngineIO::output(const std::string& message) {
+void UCIIO::output(const std::string& message) {
     std::cout << message << std::endl;
 }

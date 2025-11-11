@@ -3,6 +3,9 @@
 #include "console.hpp"
 
 
+Console::Console(IEngineIO& engine_io) : _uci(engine_io), _engine_io(engine_io) {}
+
+
 void Console::run() {
     std::string input;
     std::string output;

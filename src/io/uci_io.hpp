@@ -5,10 +5,10 @@
 #include <string>
 
 
-class IEngineIO: public IEngineIO {
+class UCIIO: public IEngineIO {
 
     public:
-        virtual ~IEngineIO() = default;
+        virtual ~UCIIO() = default;
 
         virtual void output(const std::string& message) override;
 };

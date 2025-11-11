@@ -1,5 +1,7 @@
 #pragma once
 
+#include "io/engine_io.hpp"
+
 #include <string>
 
 
@@ -8,4 +10,4 @@
  *
  * @return A string representing the result of the check.
  */
-std::string is_ready();
+void is_ready(IEngineIO& engine_io);

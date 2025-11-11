@@ -27,5 +27,8 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
     // Creates a new POST route for sending a command to a session
     CROW_ROUTE(app, "/engine/<int>").methods("POST"_method)
     ([&app, &controller](const crow::request& req, int engine_id){
+        crow::json::wvalue res;
+        res["status"] = "not_implemented";
+        return res;
     });
 }

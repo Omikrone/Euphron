@@ -22,7 +22,8 @@ void Engine::play_move(BBMove& bb_move) {
 }
 
 
-void Engine::find_best_move(int depth) {
+void Engine::start_search(int depth) {
+    _search_flag = true;
     std::cout << _game.get_fen() << std::endl;
     std::vector<Move> best_moves;
 
@@ -54,5 +55,5 @@ void Engine::find_best_move(int depth) {
 
 
 void Engine::stop_search() {
-    // Not implemented yet
+    _search_flag = false;
 }

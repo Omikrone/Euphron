@@ -3,7 +3,7 @@
 #include "uci.hpp"
 
 
-UCI::UCI() : _engine() {}
+UCI::UCI(IEngineIO &engine_io) : _engine(engine_io), _engine_io(engine_io) {}
 
 
 std::vector<std::string> UCI::split(const std::string& s) {
@@ -31,10 +31,10 @@ std::string UCI::handle_command(std::string input) {
     switch (uci_cmd.value())
     {
         case UCICommands::CMD_UCI:
-            output = get_infos();
+            get_infos(_engine_io);
             break;
         case UCICommands::CMD_IS_READY:
-            output = is_ready();
+            is_ready(_engine_io);
             break;
         case UCICommands::CMD_UCI_NEW_GAME:
             new_game(_engine);
@@ -43,7 +43,7 @@ std::string UCI::handle_command(std::string input) {
             position(args, _engine);
             break;
         case UCICommands::CMD_GO:
-            output = go(args, _engine);
+            go(args, _engine);
             break;
         case UCICommands::CMD_QUIT:
             quit();

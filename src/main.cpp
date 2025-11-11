@@ -2,6 +2,7 @@
 #include "api/routes/command_route.hpp"
 #include "api/controllers/engine_controller.hpp"
 #include "console/console.hpp"
+#include "io/http_io.hpp"
 
 #include "crow.h"
 #include "crow/middlewares/cors.h"
@@ -19,7 +20,8 @@ int main(int argc, char** argv) {
     
     if (force_http) {
         crow::App<crow::CORSHandler> app;
-        EngineController controller = EngineController();
+        HttpEngineIO engine_io;
+        EngineController controller = EngineController(engine_io);
 
         register_engine_routes(app, controller);
 
@@ -27,7 +29,8 @@ int main(int argc, char** argv) {
         app.port(18088).multithreaded().run();
     }
     else {
-        Console console;
+        UCIIO uci;
+        Console console(uci);
         console.run();
     }
 

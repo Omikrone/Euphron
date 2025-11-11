@@ -25,6 +25,7 @@ class Engine
         Search _search;
         std::thread _search_thread;
         IEngineIO& _engine_io;
+        bool _search_flag;
 
     public:
 
@@ -51,7 +52,7 @@ class Engine
          *
          * @return The best move found.
          */
-        void find_best_move(int depth);
+        void start_search(int depth);
 
         /**
          * @brief Stops the current search.

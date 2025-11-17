@@ -4,7 +4,15 @@
 void go(std::vector<std::string>& args, Engine& engine) {
     std::map<GO_OPTIONS, std::string> go_options = parse_go_args(args);
     std::cout << "GO options parsed: " << go_options.size() << std::endl;
-    engine.find_best_move(3);
+    engine.start_search(
+        go_options.count(GO_OPTIONS::DEPTH) ? std::optional<int>(std::stoi(go_options.at(GO_OPTIONS::DEPTH))) : std::nullopt,
+        go_options.count(GO_OPTIONS::MOVE_TIME) ? std::optional<int>{std::stoi(go_options.at(GO_OPTIONS::MOVE_TIME))} : std::nullopt,
+        go_options.count(GO_OPTIONS::W_TIME) ? std::optional<int>(std::stoi(go_options.at(GO_OPTIONS::W_TIME))) : std::nullopt,
+        go_options.count(GO_OPTIONS::B_TIME) ? std::optional<int>(std::stoi(go_options.at(GO_OPTIONS::B_TIME))) : std::nullopt,
+        go_options.count(GO_OPTIONS::W_INC) ? std::optional<int>(std::stoi(go_options.at(GO_OPTIONS::W_INC))) : std::nullopt,
+        go_options.count(GO_OPTIONS::B_INC) ? std::optional<int>(std::stoi(go_options.at(GO_OPTIONS::B_INC))) : std::nullopt,
+        go_options.count(GO_OPTIONS::INFINITE) ? std::optional<bool>(true) : std::nullopt
+    );
 }
 
 

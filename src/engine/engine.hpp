@@ -10,6 +10,7 @@
 #include <ctime>
 #include <chrono>
 #include <thread>
+#include <optional>
 
 
 /**
@@ -53,7 +54,15 @@ class Engine
          *
          * @return The best move found.
          */
-        void start_search(int depth);
+        void start_search(
+            std::optional<int> depth, 
+            std::optional<int> movetime, 
+            std::optional<int> wtime,
+            std::optional<int> btime,
+            std::optional<int> winc,
+            std::optional<int> binc,
+            std::optional<bool> infinite
+        );
 
         /**
          * @brief Stops the current search.

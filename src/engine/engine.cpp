@@ -22,7 +22,15 @@ void Engine::play_move(BBMove& bb_move) {
 }
 
 
-void Engine::start_search(int depth) {
+void Engine::start_search(
+    std::optional<int> depth, 
+    std::optional<int> movetime, 
+    std::optional<int> wtime,
+    std::optional<int> btime,
+    std::optional<int> winc,
+    std::optional<int> binc,
+    std::optional<bool> infinite
+    ) {
     if (_search_flag == true) {
         _engine_io.output("info string A search is already running.");
         return;
@@ -31,7 +39,7 @@ void Engine::start_search(int depth) {
     std::cout << _game.get_fen() << std::endl;
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    std::thread search_thread(&Search::minimax, &_search, depth, std::ref(_best_moves));
+    std::thread search_thread(&Search::minimax, &_search, depth, std::ref(_best_moves), std::ref(_search_flag));
 }
 
 

@@ -4,6 +4,7 @@
 
 #include "game.hpp"
 #include <vector>
+#include <optional>
 
 
 /**
@@ -24,7 +25,7 @@ class Search
          * @param max_depth The maximum depth for the search.
          * @return The score evaluated of the current node.
          */
-        int node(int current_depth, int max_depth);
+        int node(int current_depth, int max_depth, bool &stop_flag);
 
     public:
 
@@ -37,5 +38,5 @@ class Search
          * @param depth The maximum depth for the search.
          * @return A vector of the "best" moves to play.
          */
-        void minimax(int depth, std::vector<Move>& best_moves);
+        void minimax(int depth, std::vector<Move>& best_moves, bool &stop_flag, std::optional<int> time_limit = std::nullopt);
 };

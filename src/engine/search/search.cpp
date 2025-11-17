@@ -8,7 +8,7 @@
 Search::Search(Game& game) : _game(game) {}
 
 
-int Search::node(int current_depth, int max_depth) {
+int Search::node(int current_depth, int max_depth, bool &stop_flag) {
 
     _game.next_turn();
     Color current_turn = _game.get_current_turn();
@@ -31,13 +31,14 @@ int Search::node(int current_depth, int max_depth) {
     else best_score = -200000;
 
     for (Move& move: moves) {
+        if (stop_flag) break;
         
         bool res = _game.try_apply_move(move.from, move.to);
         if (!res) {
             move.print();
             std::cout <<"Invalid move : " << std::endl;
         }
-        score = node(current_depth + 1, max_depth);
+        score = node(current_depth + 1, max_depth, stop_flag);
         _game.unmake_move();
         if (current_turn == Color::WHITE && score < best_score) best_score = score; // White tries to minimize black score
         else if (current_turn == Color::BLACK && score > best_score) best_score = score; // Black wants to maximize its score
@@ -47,19 +48,26 @@ int Search::node(int current_depth, int max_depth) {
 }
 
 
-void Search::minimax(int depth, std::vector<Move>& best_moves) {
+void Search::minimax(int depth, std::vector<Move>& best_moves, bool &stop_flag, std::optional<int> time_limit) {
     std::cout << "beginning minimax" << std::endl;
     int best_score = -200000;
+
+    if (time_limit.has_value()) {
+        std::cout << "Time limit set to " << time_limit.value() << " ms" << std::endl;
+        auto start_time = std::chrono::high_resolution_clock::now();
+        auto end_time = start_time + std::chrono::milliseconds(time_limit.value_or(10000));
+    }
 
     Color current_turn = _game.get_current_turn();
     std::vector<Move> moves = _game.get_legal_moves(current_turn);
     for (Move& m : moves) {
+        if (stop_flag) break;
         bool res = _game.try_apply_move(m.from, m.to);
         if (!res) {
             std::cout << "Invalid move : " << std::endl;
         }
         
-        int score = node(0, depth - 1);
+        int score = node(0, depth - 1, stop_flag);
 
         if (score == best_score) {
             best_moves.push_back(m);

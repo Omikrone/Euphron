@@ -1,10 +1,11 @@
 #pragma once
 
+#include "../../engine/engine.hpp"
+
 
 /**
  * @brief Handles the "stop" command : Interrupts the search of the engine.
  * 
- * @warning Not implemented yet.
- * @return A string representing the best move found.
+ * @param engine The engine instance.
  */
-void stop();
+void stop(Engine& engine);

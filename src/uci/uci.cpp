@@ -48,6 +48,9 @@ std::string UCI::handle_command(std::string input) {
         case UCICommands::CMD_QUIT:
             quit();
             break;
+        case UCICommands::CMD_STOP:
+            stop();
+            break;
         default:
             break;
     }

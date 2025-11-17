@@ -1,13 +1,15 @@
 // engine_controller.cpp
 
 #include "engine_controller.hpp"
+#include <io/http_io.hpp>
 
 
-EngineController::EngineController(IEngineIO& engine_io) : _engine_io(engine_io) {}
+EngineController::EngineController() {}
 
 
-uint64_t EngineController::create_session() {
-    _sessions.try_emplace(_session_id, _engine_io);
+uint64_t EngineController::create_session(HttpEngineIO& http_io) {
+    UCI uci(http_io);
+    _sessions.try_emplace(_session_id, uci);
     return _session_id++;
 }
 

@@ -13,13 +13,17 @@
 class HttpEngineIO: public IEngineIO {
     private:
 
-        crow::App<crow::CORSHandler>& _app;
+        crow::websocket::connection& _conn;
         UCI& _uci;
 
     public:
 
-        HttpEngineIO(crow::App<crow::CORSHandler>& app, UCI& uci);
+        HttpEngineIO() = default;
+        HttpEngineIO(crow::websocket::connection& conn, UCI& uci);
         ~HttpEngineIO() = default;
 
         void output(const std::string& message) override;
+        void set_coonnection(crow::websocket::connection& conn) {
+            _conn = conn;
+        }
 };

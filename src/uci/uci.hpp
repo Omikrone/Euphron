@@ -5,7 +5,6 @@
 #include "engine/engine.hpp"
 #include "uci/uci_commands.hpp"
 #include "uci/parsing/cmd_parser.hpp"
-#include "uci/parsing/uci_parser.hpp"
 
 #include "uci/commands/new_game.hpp"
 #include "uci/commands/position.hpp"
@@ -56,7 +55,6 @@ class UCI
          * @brief Handles an UCI command.
          * 
          * @param input The command to handle.
-         * @return A string representing the output of the command.
          */
-        std::string handle_command(std::string input);
+        void handle_command(std::string input);
 };

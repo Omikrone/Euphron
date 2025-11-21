@@ -4,7 +4,7 @@
 
 
 void position(std::vector<std::string>& args, Engine& engine) {
-    std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>> position_options = parse_position_args(args);
+    std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<Move>>> position_options = parse_position_args(args);
 
     if (position_options.find(POSITION_OPTIONS::STARTPOS) != position_options.end()) {
         engine.update_position("startpos");
@@ -16,15 +16,15 @@ void position(std::vector<std::string>& args, Engine& engine) {
     }
 
     if (position_options.find(POSITION_OPTIONS::MOVES) != position_options.end()) {
-        for (BBMove& move : std::get<std::vector<BBMove>>(position_options[POSITION_OPTIONS::MOVES])) {
+        for (Move& move : std::get<std::vector<Move>>(position_options[POSITION_OPTIONS::MOVES])) {
             engine.play_move(move);
         }
     }
 }
 
 
-const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>> parse_position_args(std::vector<std::string>& args) {
-    std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>> options;
+const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<Move>>> parse_position_args(std::vector<std::string>& args) {
+    std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<Move>>> options;
 
     for (int i=0; i < args.size(); i++)
     {
@@ -36,9 +36,9 @@ const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>>
             options.emplace(POSITION_OPTIONS::FEN, fen);
         }
         else if (args[i] == "moves") {
-            std::vector<BBMove> moves;
+            std::vector<Move> moves;
             for (size_t j = i + 1; j < args.size(); j++) {
-                moves.push_back(UCIParser::uci_to_bb({args[j]}));
+                moves.push_back(Move::from_uci(args[j]));
             }
             options.emplace(POSITION_OPTIONS::MOVES, moves);
         }

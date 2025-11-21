@@ -15,7 +15,7 @@ std::vector<std::string> UCI::split(const std::string& s) {
 }
 
 
-std::string UCI::handle_command(std::string input) {
+void UCI::handle_command(std::string input) {
 
     std::string output;
 
@@ -25,7 +25,8 @@ std::string UCI::handle_command(std::string input) {
 
     std::optional<UCICommands> uci_cmd = CommandParser::parse_command(args.at(0));
     if (uci_cmd == std::nullopt) {
-        return "Unknown command. Please retry.";
+        std::cout << "Unknown command. Please retry." << std::endl;
+        return;
     }
 
     switch (uci_cmd.value())
@@ -54,5 +55,4 @@ std::string UCI::handle_command(std::string input) {
         default:
             break;
     }
-    return output;
 }

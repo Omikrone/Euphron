@@ -31,4 +31,4 @@ void position(std::vector<std::string>& args, Engine& engine);
  * @param args Vector of the command arguments.
  * @return A map of the arguments associated to their value.
  */
-const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<BBMove>>> parse_position_args(std::vector<std::string>& args);
+const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<Move>>> parse_position_args(std::vector<std::string>& args);

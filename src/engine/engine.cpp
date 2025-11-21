@@ -12,11 +12,11 @@ void Engine::update_position(std::string fen) {
 }
 
 
-void Engine::play_move(BBMove& bb_move) {
-    bool res = _game.try_apply_move(bb_move.from, bb_move.to);
+void Engine::play_move(Move& move) {
+    bool res = _game.try_apply_move(move.from, move.to);
     if (!res) {
         std::cout << "Invalid move received: " << std::endl;
-        std::cout << bb_move.from << " " << bb_move.to;
+        std::cout << move.from << " " << move.to;
     }
     _game.next_turn();
 }
@@ -57,8 +57,7 @@ void Engine::stop_search() {
         _search_thread.join();
         _engine_io.output("info string Search stopped.");
         int random_i = rand() % _best_moves.size();
-        BBMove move = {_best_moves[random_i].from, _best_moves[random_i].to };
-        UCIMove best_move = UCIParser::bb_to_uci({move});
-        _engine_io.output("bestmove " + best_move.move);
+        Move move = _best_moves[random_i];
+        _engine_io.output("bestmove " + move.to_uci());
     }
 }

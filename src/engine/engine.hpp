@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "uci/parsing/uci_parser.hpp"
 #include "engine/search/search.hpp"
 #include "io/uci_io.hpp"
 
@@ -47,7 +46,7 @@ class Engine
          *
          * @param move The move to play.
          */
-        void play_move(BBMove& move);
+        void play_move(Move& move);
 
         /**
          * @brief Finds the best move to play for the engine in the current position.

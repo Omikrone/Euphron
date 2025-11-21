@@ -34,6 +34,13 @@ class Engine
 
         ~Engine() = default;
 
+        int calculate_time_per_move(
+            int wtime,
+            int btime,
+            int winc,
+            int binc
+        );
+
         /**
          * @brief Updates the internal game board of the engine with a position.
          *

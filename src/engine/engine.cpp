@@ -5,6 +5,32 @@
 
 Engine::Engine(IEngineIO& engine_io) : _game(), _search(_game), _engine_io(engine_io) {}
 
+int Engine::calculate_time_per_move(
+    int wtime,
+    int btime,
+    int winc,
+    int binc
+) {
+    Color turn = _game.get_current_turn();
+    int time;
+    int inc;
+
+    if (turn == Color::WHITE) {
+        time = wtime;
+        inc = winc;
+    }
+    else {
+        time = btime;
+        inc = binc;
+    }
+
+    int nb_moves = _game.get_nb_moves(turn);
+    int moves_to_go = 40 - (nb_moves / 2);
+    int time_per_move = time / moves_to_go + inc - 50;
+    if (time_per_move < 20) time_per_move = 20;
+    return time_per_move;
+}
+
 
 void Engine::update_position(std::string fen) {
     _game.load_fen(fen);
@@ -37,13 +63,31 @@ void Engine::start_search(
     }
     _search_flag = true;
     std::cout << _game.get_fen() << std::endl;
+    _best_moves.clear();
+    if (!movetime.has_value()) {
+        if (infinite.has_value() && infinite.value() == true) {
+            movetime = std::nullopt;
+        }
+        else {
+            int time_per_move = calculate_time_per_move(
+                wtime.value_or(0),
+                btime.value_or(0),
+                winc.value_or(0),
+                binc.value_or(0)
+            );
+            movetime = time_per_move;
+        }
+    }
 
-    auto t1 = std::chrono::high_resolution_clock::now();
+    auto start_time = std::chrono::high_resolution_clock::now();
+
     std::thread search_thread(
         [this, movetime, depth]() {
             _search.minimax(movetime, depth, _best_moves, _search_flag);
         }
     );
+    _search_thread = std::move(search_thread);
+    _search_thread.detach();
 }
 
 

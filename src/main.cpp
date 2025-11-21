@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     if (force_http) {
         crow::App<crow::CORSHandler> app;
         HttpEngineIO engine_io;
-        EngineController controller = EngineController(engine_io);
+        EngineController controller;
 
         register_engine_routes(app, controller);
 

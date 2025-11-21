@@ -27,7 +27,7 @@ class Engine
         std::thread _search_thread;
         IEngineIO& _engine_io;
         bool _search_flag;
-        std::vector<UCIMove> _best_moves;
+        std::vector<Move> _best_moves;
 
     public:
 

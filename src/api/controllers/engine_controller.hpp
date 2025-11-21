@@ -4,6 +4,7 @@
 
 #include "engine/engine.hpp"
 #include "uci/uci.hpp"
+#include "io/http_io.hpp"
 
 #include <unordered_map>
 
@@ -18,6 +19,6 @@ class EngineController
         EngineController();
         ~EngineController() = default;
 
-        uint64_t create_session(UCI& http_io);
+        uint64_t create_session(HttpEngineIO& http_io);
         UCI &get_session(uint64_t session_id);
 };

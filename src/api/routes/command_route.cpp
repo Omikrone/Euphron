@@ -10,7 +10,8 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
     ([&app, &controller](const crow::request& req){
 
         // Creates a new game
-        uint64_t engine_id = controller.create_session();
+        HttpEngineIO http_io;
+        uint64_t engine_id = controller.create_session(http_io);
 
         crow::json::wvalue response;
         response["session_id"] = engine_id;
@@ -26,8 +27,10 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
 
     // Creates a new POST route for sending a command to a session
     CROW_WEBSOCKET_ROUTE(app, "/engine/<int>")
-        .onopen([](crow::websocket::connection& /*conn*/) {
+        .onopen([&controller](crow::websocket::connection& conn) {
             CROW_LOG_INFO << "Client connected!";
+            HttpEngineIO http_io(conn);
+            controller.create_session(http_io);
         })
         .onmessage([&controller](crow::websocket::connection& conn, const std::string& message, bool /*is_binary*/) {
             try {

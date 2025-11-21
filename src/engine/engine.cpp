@@ -39,7 +39,11 @@ void Engine::start_search(
     std::cout << _game.get_fen() << std::endl;
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    std::thread search_thread(&Search::minimax, &_search, depth, std::ref(_best_moves), std::ref(_search_flag));
+    std::thread search_thread(
+        [this, movetime, depth]() {
+            _search.minimax(movetime, depth, _best_moves, _search_flag);
+        }
+    );
 }
 
 
@@ -53,7 +57,8 @@ void Engine::stop_search() {
         _search_thread.join();
         _engine_io.output("info string Search stopped.");
         int random_i = rand() % _best_moves.size();
-        UCIMove best_move = _best_moves.at(random_i);;
+        BBMove move = {_best_moves[random_i].from, _best_moves[random_i].to };
+        UCIMove best_move = UCIParser::bb_to_uci({move});
         _engine_io.output("bestmove " + best_move.move);
     }
 }

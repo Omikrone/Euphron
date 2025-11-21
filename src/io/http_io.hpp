@@ -2,7 +2,6 @@
 
 #include "engine/engine.hpp"
 #include "engine_io.hpp"
-#include "api/controllers/engine_controller.hpp"
 
 #include <crow.h>
 #include <string>
@@ -14,16 +13,15 @@ class HttpEngineIO: public IEngineIO {
     private:
 
         crow::websocket::connection& _conn;
-        UCI& _uci;
 
     public:
 
-        HttpEngineIO() = default;
-        HttpEngineIO(crow::websocket::connection& conn, UCI& uci);
+        HttpEngineIO();
+        HttpEngineIO(crow::websocket::connection& conn);
         ~HttpEngineIO() = default;
 
         void output(const std::string& message) override;
-        void set_coonnection(crow::websocket::connection& conn) {
+        void set_connection(crow::websocket::connection& conn) {
             _conn = conn;
         }
 };

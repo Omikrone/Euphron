@@ -4,6 +4,7 @@
 
 #include "uci/uci.hpp"
 #include "api/controllers/engine_controller.hpp"
+#include "io/http_io.hpp"
 
 // Turns off the warning of unreachable code in crow
 #pragma warning(push)

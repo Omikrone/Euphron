@@ -49,7 +49,7 @@ std::string UCI::handle_command(std::string input) {
             quit();
             break;
         case UCICommands::CMD_STOP:
-            stop();
+            stop(_engine);
             break;
         default:
             break;

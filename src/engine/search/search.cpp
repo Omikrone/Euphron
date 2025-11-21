@@ -48,9 +48,13 @@ int Search::node(int current_depth, int max_depth, bool &stop_flag) {
 }
 
 
-void Search::minimax(int depth, std::vector<Move>& best_moves, bool &stop_flag, std::optional<int> time_limit) {
+void Search::minimax(std::optional<int> time_limit, std::optional<int> depth_opt, std::vector<Move> &best_moves, bool &stop_flag) {
     std::cout << "beginning minimax" << std::endl;
     int best_score = -200000;
+    int depth = 4;
+    if (depth_opt.has_value()) {
+        depth = depth_opt.value();
+    }
 
     if (time_limit.has_value()) {
         std::cout << "Time limit set to " << time_limit.value() << " ms" << std::endl;

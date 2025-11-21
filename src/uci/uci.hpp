@@ -49,6 +49,8 @@ class UCI
 
         UCI(IEngineIO& engine_io);
         ~UCI() = default;
+        UCI(const UCI&) = default;
+        UCI(UCI&&) = default;
 
         /**
          * @brief Handles an UCI command.

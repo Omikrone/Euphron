@@ -10,6 +10,7 @@ void Engine::set_timer_thread(int time_per_move) {
     _timer_thread = std::thread([this, time_per_move]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(time_per_move));
         if (_search_flag) {
+            std::cout << "Timer thread stopping search" << std::endl;
             stop_search();
         }
     });
@@ -90,15 +91,17 @@ void Engine::start_search(
         }
     }
 
-    auto start_time = std::chrono::high_resolution_clock::now();
-
-    std::thread search_thread(
+    _search_thread = std::thread(
         [this, movetime, depth]() {
             _search.minimax(movetime, depth, _best_moves, _search_flag);
         }
     );
-    _search_thread = std::move(search_thread);
-    _search_thread.detach();
+
+    if (movetime.has_value() && !infinite.has_value()) {
+        set_timer_thread(movetime.value());
+    }
+    
+    std::cout << "Search started" << std::endl;
 }
 
 
@@ -109,7 +112,12 @@ void Engine::stop_search() {
     }
     else {
         _search_flag = false;
-        _search_thread.join();
+        std::cout << "Search stopped NIGGGA" << std::endl;
+        if (_search_thread.joinable()) {
+            std::cout << "Joining search thread" << std::endl;
+            _search_thread.join();
+        }
+        std::cout << "Number of best moves : " << _best_moves.size() << std::endl;
         _engine_io.output("info string Search stopped.");
         int random_i = rand() % _best_moves.size();
         Move move = _best_moves[random_i];

@@ -48,16 +48,12 @@ int Search::node(int current_depth, int max_depth, bool &search_flag) {
 }
 
 
-void Search::minimax(std::optional<int> time_limit, std::optional<int> depth_opt, std::vector<Move> &best_moves, bool &search_flag) {
+void Search::minimax(std::optional<int> time_limit, int depth, std::vector<Move> &best_moves, bool &search_flag) {
     std::cout << "beginning minimax" << std::endl;
     int best_score = -200000;
-    int depth = 4;
     std::cout << "Value of options :" << std::endl;
     std::cout << "  - time limit : " << (time_limit.has_value() ? std::to_string(time_limit.value()) : "none") << std::endl;
-    std::cout << "  - depth : " << (depth_opt.has_value() ? std::to_string(depth_opt.value()) : "default") << std::endl;
-    if (depth_opt.has_value()) {
-        depth = depth_opt.value();
-    }
+    std::cout << "  - depth : " << depth << std::endl;
 
     Color current_turn = _game.get_current_turn();
     std::vector<Move> moves = _game.get_legal_moves(current_turn);

@@ -11,6 +11,8 @@
 #include <thread>
 #include <optional>
 
+#define MAX_DEPTH 5
+
 
 /**
  * @brief Main class representing the Engine "Euphron".

@@ -77,10 +77,11 @@ void Engine::start_search(
     std::cout << _game.get_fen() << std::endl;
     _best_moves.clear();
     if (!movetime.has_value()) {
-        if (infinite.has_value() && infinite.value() == true) {
+        if (infinite.has_value() && infinite.value() == true && !depth.has_value()) {
             movetime = std::nullopt;
+            depth = MAX_DEPTH;
         }
-        else {
+        else if (wtime.has_value() && btime.has_value()) {
             int time_per_move = calculate_time_per_move(
                 wtime.value_or(0),
                 btime.value_or(0),
@@ -93,7 +94,7 @@ void Engine::start_search(
 
     _search_thread = std::thread(
         [this, movetime, depth]() {
-            _search.minimax(movetime, depth, _best_moves, _search_flag);
+            _search.minimax(movetime, depth.value_or(MAX_DEPTH), _best_moves, _search_flag);
         }
     );
 

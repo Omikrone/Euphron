@@ -22,6 +22,7 @@ const std::map<GO_OPTIONS, std::string> parse_go_args(std::vector<std::string>& 
 
     for (int i=0; i < args.size(); i++)
     {
+        std::cout << "Arg " << i << ": " << args[i] << std::endl;
         if (args[i] == "wtime") {
             options.emplace(GO_OPTIONS::W_TIME, args[i + 1]);
         }
@@ -38,7 +39,7 @@ const std::map<GO_OPTIONS, std::string> parse_go_args(std::vector<std::string>& 
             options.emplace(GO_OPTIONS::MOVE_TIME, args[i + 1]);
         }
         else if (args[i] == "infinite") {
-            options.emplace(GO_OPTIONS::INFINITE, args[i + 1]);
+            options.emplace(GO_OPTIONS::INFINITE, args[i]);
         }
         else if (args[i] == "depth") {
             options.emplace(GO_OPTIONS::DEPTH, args[i + 1]);

@@ -5,6 +5,17 @@
 
 Engine::Engine(IEngineIO& engine_io) : _game(), _search(_game), _engine_io(engine_io) {}
 
+
+void Engine::set_timer_thread(int time_per_move) {
+    _timer_thread = std::thread([this, time_per_move]() {
+        std::this_thread::sleep_for(std::chrono::milliseconds(time_per_move));
+        if (_search_flag) {
+            stop_search();
+        }
+    });
+    _timer_thread.detach();
+}
+
 int Engine::calculate_time_per_move(
     int wtime,
     int btime,

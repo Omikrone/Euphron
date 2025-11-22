@@ -24,6 +24,7 @@ class Engine
         Game _game;
         Search _search;
         std::thread _search_thread;
+        std::thread _timer_thread;
         IEngineIO& _engine_io;
         bool _search_flag;
         std::vector<Move> _best_moves;
@@ -40,6 +41,8 @@ class Engine
             int winc,
             int binc
         );
+
+        void set_timer_thread(int time_per_move);
 
         /**
          * @brief Updates the internal game board of the engine with a position.

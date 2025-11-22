@@ -8,18 +8,19 @@
 Search::Search(Game& game) : _game(game) {}
 
 
-int Search::node(int current_depth, int max_depth, bool &search_flag) {
+int Search::node(int current_depth, int max_depth, bool &search_flag, Color maximizing_player) {
 
     _game.next_turn();
     Color current_turn = _game.get_current_turn();
+    Color minimizing_player = (maximizing_player == Color::WHITE) ? Color::BLACK : Color::WHITE;
 
     if (current_depth == max_depth) {        
         EndGame state = _game.get_game_state();
         _game.next_turn();
         if (state == EndGame::STALEMATE) return 0;
-        else if (state == EndGame::CHECKMATE && current_turn == Color::BLACK) return -1000000;
+        else if (state == EndGame::CHECKMATE && current_turn == maximizing_player) return -1000000;
         else if (state == EndGame::CHECKMATE) return 1000000;
-        else return Evaluation::evaluate_board_for(_game.get_board(), Color::BLACK);
+        else return Evaluation::evaluate_board_for(_game.get_board(), maximizing_player);
     }
 
     int score;
@@ -27,7 +28,7 @@ int Search::node(int current_depth, int max_depth, bool &search_flag) {
 
     std::vector<Move> moves = _game.get_legal_moves(current_turn);
 
-    if (current_turn == Color::WHITE) best_score = 200000; // Extremum to update
+    if (current_turn == minimizing_player) best_score = 200000; // Extremum to update
     else best_score = -200000;
 
     for (Move& move: moves) {
@@ -38,10 +39,10 @@ int Search::node(int current_depth, int max_depth, bool &search_flag) {
             move.print();
             std::cout <<"Invalid move : " << std::endl;
         }
-        score = node(current_depth + 1, max_depth, search_flag);
+        score = node(current_depth + 1, max_depth, search_flag, maximizing_player);
         _game.unmake_move();
-        if (current_turn == Color::WHITE && score < best_score) best_score = score; // White tries to minimize black score
-        else if (current_turn == Color::BLACK && score > best_score) best_score = score; // Black wants to maximize its score
+        if (current_turn == minimizing_player && score < best_score) best_score = score; // White tries to minimize black score
+        else if (current_turn == maximizing_player && score > best_score) best_score = score; // Black wants to maximize its score
     }
 
     return best_score;
@@ -65,7 +66,7 @@ void Search::minimax(std::optional<int> time_limit, int depth, std::vector<Move>
             std::cout << "Invalid move : " << std::endl;
         }
         
-        int score = node(0, depth - 1, search_flag);
+        int score = node(0, depth - 1, search_flag, current_turn);
 
         if (score == best_score) {
             best_moves.push_back(m);
@@ -77,7 +78,7 @@ void Search::minimax(std::optional<int> time_limit, int depth, std::vector<Move>
         }
         _game.unmake_move();
     }
-    int current_score = Evaluation::evaluate_board_for(_game.get_board(), Color::BLACK);
+    int current_score = Evaluation::evaluate_board_for(_game.get_board(), current_turn);
     std::cout << "Final score relative to current position : " << best_score - current_score << std::endl;
     std::cout << "End of minimax" << std::endl;
     if (best_moves.size() == 0) {

@@ -13,12 +13,12 @@ class EngineController
 {
     private:
         std::unordered_map<uint64_t, UCI> _sessions;
-        uint64_t _session_id = 0;
 
     public:
         EngineController();
         ~EngineController() = default;
 
-        uint64_t create_session(HttpEngineIO& http_io);
+        uint64_t create_session(HttpEngineIO& http_io, int session_id);
         UCI &get_session(uint64_t session_id);
+        bool has_session(uint64_t session_id);
 };

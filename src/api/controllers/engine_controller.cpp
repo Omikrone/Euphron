@@ -6,12 +6,15 @@
 EngineController::EngineController() {}
 
 
-uint64_t EngineController::create_session(HttpEngineIO& http_io) {
-    _sessions.try_emplace(_session_id, http_io);
-    return _session_id++;
+uint64_t EngineController::create_session(crow::websocket::connection& conn, int session_id) {
+    _sessions.try_emplace(session_id, std::make_shared<HttpEngineIO>(conn));
+    return session_id;
 }
 
+UCI& EngineController::get_session(uint64_t session_id) {
+    return 
+}
 
-UCI &EngineController::get_session(uint64_t session_id) {
-    return _sessions.at(session_id);
+bool EngineController::has_session(uint64_t session_id) {
+    return _sessions.find(session_id) != _sessions.end();
 }

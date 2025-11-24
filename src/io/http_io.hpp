@@ -16,12 +16,8 @@ class HttpEngineIO: public IEngineIO {
 
     public:
 
-        HttpEngineIO();
         HttpEngineIO(crow::websocket::connection& conn);
         ~HttpEngineIO() = default;
 
         void output(const std::string& message) override;
-        void set_connection(crow::websocket::connection& conn) {
-            _conn = conn;
-        }
 };

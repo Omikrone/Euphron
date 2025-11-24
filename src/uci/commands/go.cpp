@@ -2,6 +2,7 @@
 
 
 void go(std::vector<std::string>& args, Engine& engine) {
+    std::cout << "Handling go command with args size: " << args.size() << std::endl;
     std::map<GO_OPTIONS, std::string> go_options = parse_go_args(args);
     std::cout << "GO options parsed: " << go_options.size() << std::endl;
     engine.start_search(

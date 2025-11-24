@@ -15,12 +15,11 @@ int main(int argc, char** argv) {
     for (int i = 1; i < argc; i++)
     {
         std::string arg(argv[i]);
-        if (arg == "--http") force_http == true;
+        if (arg == "--http") force_http = true;
     }
     
     if (force_http) {
         crow::App<crow::CORSHandler> app;
-        HttpEngineIO engine_io;
         EngineController controller;
 
         register_engine_routes(app, controller);

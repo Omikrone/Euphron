@@ -69,6 +69,7 @@ void Engine::start_search(
     std::optional<int> binc,
     std::optional<bool> infinite
     ) {
+    _engine_io.output("info string Starting search...");
     if (_search_flag == true) {
         _engine_io.output("info string A search is already running.");
         return;

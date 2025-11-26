@@ -3,7 +3,7 @@
 #include "uci.hpp"
 
 
-UCI::UCI(IEngineIO &engine_io) : _engine(engine_io), _engine_io(engine_io) {}
+UCI::UCI(std::shared_ptr<IEngineIO> engine_io) : _engine(*engine_io.get()), _engine_io(engine_io) {}
 
 
 std::vector<std::string> UCI::split(const std::string& s) {
@@ -28,14 +28,18 @@ void UCI::handle_command(std::string input) {
         std::cout << "Unknown command. Please retry." << std::endl;
         return;
     }
+    if (_engine_io == nullptr) {
+        std::cerr << "Error: Engine IO is not initialized." << std::endl;
+        return;
+    }
 
     switch (uci_cmd.value())
     {
         case UCICommands::CMD_UCI:
-            get_infos(_engine_io);
+            get_infos(*_engine_io.get());
             break;
         case UCICommands::CMD_IS_READY:
-            is_ready(_engine_io);
+            is_ready(*_engine_io.get());
             break;
         case UCICommands::CMD_UCI_NEW_GAME:
             new_game(_engine);

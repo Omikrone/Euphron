@@ -7,6 +7,7 @@
 #include "io/http_io.hpp"
 
 #include <unordered_map>
+#include <memory>
 
 
 class EngineController
@@ -18,7 +19,7 @@ class EngineController
         EngineController();
         ~EngineController() = default;
 
-        uint64_t create_session(HttpEngineIO& http_io, int session_id);
+        uint64_t create_session(crow::websocket::connection& conn, int session_id);
         UCI &get_session(uint64_t session_id);
         bool has_session(uint64_t session_id);
 };

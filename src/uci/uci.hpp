@@ -35,7 +35,7 @@ class UCI
 {
     private:
         Engine _engine;
-        IEngineIO& _engine_io;
+        std::shared_ptr<IEngineIO> _engine_io;
         
         /**
          * @brief Splits an input into the different parts of a command.
@@ -46,10 +46,14 @@ class UCI
 
     public:
 
-        UCI(IEngineIO& engine_io);
+        UCI(std::shared_ptr<IEngineIO> engine_io);
         ~UCI() = default;
-        UCI(const UCI&) = default;
+
+        UCI(const UCI&) = delete;
+        UCI& operator=(const UCI&) = delete;
+
         UCI(UCI&&) = default;
+        UCI& operator=(UCI&&) = default;
 
         /**
          * @brief Handles an UCI command.

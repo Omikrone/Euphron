@@ -12,11 +12,11 @@
 class HttpEngineIO: public IEngineIO {
     private:
 
-        crow::websocket::connection& _conn;
+        crow::websocket::connection *_conn;
 
     public:
 
-        HttpEngineIO(crow::websocket::connection& conn);
+        HttpEngineIO(crow::websocket::connection *conn);
         ~HttpEngineIO() = default;
 
         void output(const std::string& message) override;

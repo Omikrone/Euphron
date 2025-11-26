@@ -17,8 +17,7 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
                 int session_id = req["session_id"].i();
                 uint64_t id = static_cast<uint64_t>(session_id);
                 if (!controller.has_session(id)) {
-                    HttpEngineIO http_io(conn);
-                    controller.create_session(http_io, id);
+                    controller.create_session(conn, id);
                 }
                 UCI& session = controller.get_session(id);
                 std::cout << "Handling command for session " << id << ": " << req["command"].s() << std::endl;

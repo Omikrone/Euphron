@@ -11,11 +11,11 @@ class Console
     private:
         UCI _uci;
         std::vector<std::thread> _uci_threads;
-        IEngineIO& _engine_io;
+        std::shared_ptr<IEngineIO> _engine_io;
 
     public:
 
-        Console(IEngineIO& engine_io);
+        Console(std::shared_ptr<IEngineIO> engine_io);
         ~Console() = default;
 
         void run();

@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
         app.port(18088).multithreaded().run();
     }
     else {
-        UCIIO uci;
+        std::shared_ptr<IEngineIO> uci = std::make_shared<UCIIO>();
         Console console(uci);
         console.run();
     }

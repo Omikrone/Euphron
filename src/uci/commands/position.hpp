@@ -10,7 +10,6 @@
 
 
 enum class POSITION_OPTIONS {
-    STARTPOS,
     FEN,
     MOVES  
 };

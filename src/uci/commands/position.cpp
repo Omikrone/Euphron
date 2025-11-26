@@ -6,10 +6,7 @@
 void position(std::vector<std::string>& args, Engine& engine) {
     std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<Move>>> position_options = parse_position_args(args);
 
-    if (position_options.find(POSITION_OPTIONS::STARTPOS) != position_options.end()) {
-        engine.update_position("startpos");
-    }
-    else if (position_options.find(POSITION_OPTIONS::FEN) != position_options.end()) {
+    if (position_options.find(POSITION_OPTIONS::FEN) != position_options.end()) {
         std::string fen = std::get<std::string>(position_options[POSITION_OPTIONS::FEN]);
         // TODO: Handle FEN with spaces
         engine.update_position(fen);
@@ -29,7 +26,7 @@ const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<Move>>> p
     for (int i=0; i < args.size(); i++)
     {
         if (args[i] == "startpos") {
-            options.emplace(POSITION_OPTIONS::STARTPOS, "");
+            options.emplace(POSITION_OPTIONS::FEN, "startpos");
         }
         else if (args[i] == "fen") {
             std::string fen = std::format("{} {} {} {} {} {}", args[i+1], args[i+2], args[i+3], args[i+4], args[i+5], args[i+6]);

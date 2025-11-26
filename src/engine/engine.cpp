@@ -23,11 +23,10 @@ int Engine::calculate_time_per_move(
     int winc,
     int binc
 ) {
-    Color turn = _game.get_current_turn();
     int time;
     int inc;
 
-    if (turn == Color::WHITE) {
+    if (_game.get_current_turn() == Color::WHITE) {
         time = wtime;
         inc = winc;
     }
@@ -36,7 +35,7 @@ int Engine::calculate_time_per_move(
         inc = binc;
     }
 
-    int nb_moves = _game.get_nb_moves(turn);
+    int nb_moves = _game.get_fullmove_number();
     int moves_to_go = 40 - (nb_moves / 2);
     int time_per_move = time / moves_to_go + inc - 50;
     if (time_per_move < 20) time_per_move = 20;
@@ -51,6 +50,7 @@ void Engine::update_position(std::string fen) {
 
 
 void Engine::play_move(Move& move) {
+    std::cout << "Playing move : " << _game.get_current_turn() << std::endl;
     bool res = _game.try_apply_move(move.from, move.to);
     if (!res) {
         std::cout << "Invalid move received: " << std::endl;

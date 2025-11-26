@@ -15,11 +15,15 @@ int Search::node(int current_depth, int max_depth, bool &search_flag, Color maxi
     Color minimizing_player = (maximizing_player == Color::WHITE) ? Color::BLACK : Color::WHITE;
 
     if (current_depth == max_depth) {        
-        EndGame state = _game.get_game_state();
+        GameState state = _game.get_game_state();
         _game.next_turn();
-        if (state == EndGame::STALEMATE) return 0;
-        else if (state == EndGame::CHECKMATE && current_turn == maximizing_player) return -1000000;
-        else if (state == EndGame::CHECKMATE) return 1000000;
+        if (state == GameState::DRAW_BY_75_MOVE_RULE || 
+            state == GameState::STALEMATE || 
+            state == GameState::DRAW_BY_INSUFFICIENT_MATERIAL || 
+            state == GameState::DRAW_BY_FIFTY_MOVE_RULE ||
+            state == GameState::DRAW_BY_THREEFOLD_REPETITION) return 0;
+        else if (state == GameState::CHECKMATE && current_turn == maximizing_player) return -1000000;
+        else if (state == GameState::CHECKMATE) return 1000000;
         else return Evaluation::evaluate_board_for(_game.get_board(), maximizing_player);
     }
 

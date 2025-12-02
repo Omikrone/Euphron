@@ -5,10 +5,16 @@
 #include <string>
 
 
-class UCIIO: public IEngineIO {
+/**
+ * @class ConsoleIO
+ * @brief Implementation of IEngineIO for console input/output.
+ *
+ * This class handles input and output operations through the console.
+ */
+class ConsoleIO: public IEngineIO {
 
     public:
-        virtual ~UCIIO() = default;
+        virtual ~ConsoleIO() = default;
 
         virtual void output(const std::string& message) override;
 };

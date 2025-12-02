@@ -9,6 +9,12 @@
 #include <map>
 
 
+/**
+ * @enum POSITION_OPTIONS
+ * @brief Enumeration of options for the "position" command.
+ * 
+ * This enum defines the various options that can be specified with the "position" command in UCI.
+ */
 enum class POSITION_OPTIONS {
     FEN,
     MOVES  

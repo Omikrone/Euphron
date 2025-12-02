@@ -7,7 +7,7 @@ EngineController::EngineController() {}
 
 
 uint64_t EngineController::create_session(crow::websocket::connection& conn, int session_id) {
-    std::shared_ptr<IEngineIO> http_io = std::make_shared<HttpEngineIO>(&conn);
+    std::shared_ptr<IEngineIO> http_io = std::make_shared<HttpIO>(&conn);
     _sessions.try_emplace(session_id, http_io);
     return session_id;
 }

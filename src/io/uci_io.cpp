@@ -4,6 +4,6 @@
 #include <string>
 
 
-void UCIIO::output(const std::string& message) {
+void ConsoleIO::output(const std::string& message) {
     std::cout << message << std::endl << std::flush;
 }

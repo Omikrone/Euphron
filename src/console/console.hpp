@@ -1,4 +1,5 @@
 // console.hpp
+#pragma once
 
 #include "uci/uci.hpp"
 
@@ -6,6 +7,12 @@
 #include <string>
 
 
+/**
+ * @class Console
+ * @brief Class representing the console interface for the chess engine.
+ *
+ * This class handles the interaction between the user and the engine through the console.
+ */
 class Console
 {
     private:
@@ -18,5 +25,8 @@ class Console
         Console(std::shared_ptr<IEngineIO> engine_io);
         ~Console() = default;
 
+        /**
+         * @brief Runs the console interface, handling user input and engine commands.
+         */
         void run();
 };

@@ -8,7 +8,12 @@
 
 #define MAX_DEPTH 3
 
-
+/**
+ * @enum GO_OPTIONS
+ * @brief Enumeration of options for the "go" command.
+ * 
+ * This enum defines the various options that can be specified with the "go" command in UCI.
+ */
 enum class GO_OPTIONS {
     W_TIME,
     B_TIME,

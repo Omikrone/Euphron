@@ -44,6 +44,11 @@ class Engine
             int binc
         );
 
+        /**
+         * @brief Sets a timer thread to stop the search after a given time per move.
+         *
+         * @param time_per_move The time allocated for the move in milliseconds.
+         */
         void set_timer_thread(int time_per_move);
 
         /**

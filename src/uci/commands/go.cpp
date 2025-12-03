@@ -1,9 +1,7 @@
 #include "go.hpp"
 
 void go(std::vector<std::string>& args, Engine& engine) {
-    std::cout << "Handling go command with args size: " << args.size() << std::endl;
     std::map<GO_OPTIONS, std::string> go_options = parse_go_args(args);
-    std::cout << "GO options parsed: " << go_options.size() << std::endl;
     engine.start_search(
         go_options.count(GO_OPTIONS::DEPTH) ? std::optional<int>(std::stoi(go_options.at(GO_OPTIONS::DEPTH)))
                                             : std::nullopt,
@@ -22,10 +20,8 @@ void go(std::vector<std::string>& args, Engine& engine) {
 
 const std::map<GO_OPTIONS, std::string> parse_go_args(std::vector<std::string>& args) {
     std::map<GO_OPTIONS, std::string> options;
-    std::cout << "Parsing go args, total args: " << args.size() << std::endl;
 
     for (size_t i = 0; i < args.size(); i++) {
-        std::cout << "Arg " << i << ": " << args[i] << std::endl;
         if (args[i] == "wtime") {
             options.emplace(GO_OPTIONS::W_TIME, args[i + 1]);
         } else if (args[i] == "btime") {

@@ -15,13 +15,11 @@ std::vector<std::string> UCI::split(const std::string& s) {
 void UCI::handle_command(std::string input) {
     std::string output;
 
-    std::cout << input << std::endl;
-    std::vector args = UCI::split(input);
-    std::cout << args.size() << std::endl;
+    std::vector<std::string> args = UCI::split(input);
 
     std::optional<UCICommands> uci_cmd = CommandParser::parse_command(args.at(0));
     if (uci_cmd == std::nullopt) {
-        std::cout << "Unknown command. Please retry." << std::endl;
+        _engine_io->output("info string Unknown command received.");
         return;
     }
     if (_engine_io == nullptr) {

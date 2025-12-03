@@ -9,7 +9,6 @@ void Console::run() {
     std::string output;
 
     while (true) {
-        std::cout << ">> ";
         std::getline(std::cin, input);
         if (input.empty()) continue;
 

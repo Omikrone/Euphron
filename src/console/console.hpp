@@ -1,11 +1,10 @@
 // console.hpp
 #pragma once
 
-#include "uci/uci.hpp"
-
 #include <iostream>
 #include <string>
 
+#include "uci/uci.hpp"
 
 /**
  * @class Console
@@ -13,20 +12,18 @@
  *
  * This class handles the interaction between the user and the engine through the console.
  */
-class Console
-{
-    private:
-        UCI _uci;
-        std::vector<std::thread> _uci_threads;
-        std::shared_ptr<IEngineIO> _engine_io;
+class Console {
+   private:
+    UCI _uci;
+    std::vector<std::thread> _uci_threads;
+    std::shared_ptr<IEngineIO> _engine_io;
 
-    public:
+   public:
+    Console(std::shared_ptr<IEngineIO> engine_io);
+    ~Console() = default;
 
-        Console(std::shared_ptr<IEngineIO> engine_io);
-        ~Console() = default;
-
-        /**
-         * @brief Runs the console interface, handling user input and engine commands.
-         */
-        void run();
+    /**
+     * @brief Runs the console interface, handling user input and engine commands.
+     */
+    void run();
 };

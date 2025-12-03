@@ -1,8 +1,7 @@
 #pragma once
 
-#include "uci/commands/position.hpp"
 #include "engine/engine.hpp"
-
+#include "uci/commands/position.hpp"
 
 /**
  * @brief Handles the "ucinewgame" command : Resets the engine for a new game.

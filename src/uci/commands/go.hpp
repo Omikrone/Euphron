@@ -1,29 +1,18 @@
 #pragma once
 
-#include "engine/engine.hpp"
-
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
-#define MAX_DEPTH 3
+#include "engine/engine.hpp"
 
 /**
  * @enum GO_OPTIONS
  * @brief Enumeration of options for the "go" command.
- * 
+ *
  * This enum defines the various options that can be specified with the "go" command in UCI.
  */
-enum class GO_OPTIONS {
-    W_TIME,
-    B_TIME,
-    W_INC,
-    B_INC,
-    MOVE_TIME,
-    DEPTH,
-    INFINITE
-};
-
+enum class GO_OPTIONS { W_TIME, B_TIME, W_INC, B_INC, MOVE_TIME, DEPTH, INFINITE };
 
 /**
  * @brief Handles the "go" command : Searches for the best move to play in the current position.
@@ -34,10 +23,9 @@ enum class GO_OPTIONS {
  */
 void go(std::vector<std::string>& args, Engine& engine);
 
-
 /**
  * @brief Parses the arguments for the "go" command.
- * 
+ *
  * @param args Vector of the command arguments.
  * @return A map of the arguments associated to their value.
  */

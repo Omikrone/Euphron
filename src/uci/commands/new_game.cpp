@@ -1,6 +1,5 @@
 #include "uci/commands/new_game.hpp"
 
-
 void new_game(Engine& engine) {
     std::vector<std::string> args;
     args.push_back("position");

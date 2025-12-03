@@ -2,9 +2,7 @@
 
 #include "engine.hpp"
 
-
 Engine::Engine(IEngineIO& engine_io) : _game(), _search(_game), _engine_io(engine_io) {}
-
 
 void Engine::set_timer_thread(int time_per_move) {
     _timer_thread = std::thread([this, time_per_move]() {
@@ -17,20 +15,14 @@ void Engine::set_timer_thread(int time_per_move) {
     _timer_thread.detach();
 }
 
-int Engine::calculate_time_per_move(
-    int wtime,
-    int btime,
-    int winc,
-    int binc
-) {
+int Engine::calculate_time_per_move(int wtime, int btime, int winc, int binc) {
     int time;
     int inc;
 
     if (_game.get_current_turn() == Color::WHITE) {
         time = wtime;
         inc = winc;
-    }
-    else {
+    } else {
         time = btime;
         inc = binc;
     }
@@ -42,12 +34,10 @@ int Engine::calculate_time_per_move(
     return time_per_move;
 }
 
-
 void Engine::update_position(std::string fen) {
     _game.load_fen(fen);
     std::cout << "FEN after update : " << _game.get_fen() << std::endl;
 }
-
 
 void Engine::play_move(Move& move) {
     std::cout << "Playing move : " << _game.get_current_turn() << std::endl;
@@ -59,16 +49,9 @@ void Engine::play_move(Move& move) {
     _game.next_turn();
 }
 
-
-void Engine::start_search(
-    std::optional<int> depth, 
-    std::optional<int> movetime, 
-    std::optional<int> wtime,
-    std::optional<int> btime,
-    std::optional<int> winc,
-    std::optional<int> binc,
-    std::optional<bool> infinite
-    ) {
+void Engine::start_search(std::optional<int> depth, std::optional<int> movetime, std::optional<int> wtime,
+                          std::optional<int> btime, std::optional<int> winc, std::optional<int> binc,
+                          std::optional<bool> infinite) {
     _engine_io.output("info string Starting search...");
     if (_search_flag == true) {
         _engine_io.output("info string A search is already running.");
@@ -81,38 +64,28 @@ void Engine::start_search(
         if (infinite.has_value() && infinite.value() == true && !depth.has_value()) {
             movetime = std::nullopt;
             depth = MAX_DEPTH;
-        }
-        else if (wtime.has_value() && btime.has_value()) {
-            int time_per_move = calculate_time_per_move(
-                wtime.value_or(0),
-                btime.value_or(0),
-                winc.value_or(0),
-                binc.value_or(0)
-            );
+        } else if (wtime.has_value() && btime.has_value()) {
+            int time_per_move =
+                calculate_time_per_move(wtime.value_or(0), btime.value_or(0), winc.value_or(0), binc.value_or(0));
             movetime = time_per_move;
         }
     }
 
     _search_thread = std::thread(
-        [this, movetime, depth]() {
-            _search.minimax(movetime, depth.value_or(MAX_DEPTH), _best_moves, _search_flag);
-        }
-    );
+        [this, movetime, depth]() { _search.minimax(movetime, depth.value_or(MAX_DEPTH), _best_moves, _search_flag); });
 
     if (movetime.has_value() && !infinite.has_value()) {
         set_timer_thread(movetime.value());
     }
-    
+
     std::cout << "Search started" << std::endl;
 }
-
 
 void Engine::stop_search() {
     if (_search_flag == false) {
         _engine_io.output("info string No search to stop.");
         return;
-    }
-    else {
+    } else {
         _search_flag = false;
         std::cout << "Search stopped NIGGGA" << std::endl;
         if (_search_thread.joinable()) {

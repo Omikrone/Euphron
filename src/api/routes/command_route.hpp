@@ -2,18 +2,13 @@
 
 #pragma once
 
-#include "uci/uci.hpp"
-#include "api/controllers/engine_controller.hpp"
-#include "io/http_io.hpp"
-
-// Turns off the warning of unreachable code in crow
-#pragma warning(push)
-#pragma warning(disable : 4702)
-#include "crow.h"
-#include "crow/middlewares/cors.h"
-#pragma warning(pop)
 #include <string>
 
+#include "api/controllers/engine_controller.hpp"
+#include "crow.h"
+#include "crow/middlewares/cors.h"
+#include "io/http_io.hpp"
+#include "uci/uci.hpp"
 
 /**
  * @brief Registers the http routes for the API.

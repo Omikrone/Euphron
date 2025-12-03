@@ -2,7 +2,6 @@
 
 #include "engine/engine.hpp"
 
-
 /**
  * @brief Handles the "uci" command : Gets the informations of the engine.
  *

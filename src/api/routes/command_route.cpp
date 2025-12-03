@@ -2,14 +2,10 @@
 
 #include "command_route.hpp"
 
-
 void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController& controller) {
-    
     // WebSocket route for engine commands
     CROW_WEBSOCKET_ROUTE(app, "/engine/<int>")
-        .onopen([&controller](crow::websocket::connection& conn) {
-            CROW_LOG_INFO << "Client connected!";
-        })
+        .onopen([](crow::websocket::connection& /*conn*/) { CROW_LOG_INFO << "Client connected!"; })
         .onmessage([&controller](crow::websocket::connection& conn, const std::string& message, bool /*is_binary*/) {
             try {
                 std::cout << "Received message: " << message << std::endl;
@@ -26,7 +22,7 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
                 conn.send_text(std::string("Error: ") + e.what());
             }
         })
-        .onclose([](crow::websocket::connection& /*conn*/, const std::string& reason){
+        .onclose([](crow::websocket::connection& /*conn*/, const std::string& reason) {
             CROW_LOG_INFO << "WebSocket closed for session: " << reason;
         });
 }

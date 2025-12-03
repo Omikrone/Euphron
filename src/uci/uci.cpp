@@ -2,9 +2,7 @@
 
 #include "uci.hpp"
 
-
 UCI::UCI(std::shared_ptr<IEngineIO> engine_io) : _engine(*engine_io.get()), _engine_io(engine_io) {}
-
 
 std::vector<std::string> UCI::split(const std::string& s) {
     std::istringstream iss(s);
@@ -14,9 +12,7 @@ std::vector<std::string> UCI::split(const std::string& s) {
     return tokens;
 }
 
-
 void UCI::handle_command(std::string input) {
-
     std::string output;
 
     std::cout << input << std::endl;
@@ -33,8 +29,7 @@ void UCI::handle_command(std::string input) {
         return;
     }
 
-    switch (uci_cmd.value())
-    {
+    switch (uci_cmd.value()) {
         case UCICommands::CMD_UCI:
             get_infos(*_engine_io.get());
             break;

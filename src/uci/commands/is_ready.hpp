@@ -1,9 +1,8 @@
 #pragma once
 
-#include "io/engine_io.hpp"
-
 #include <string>
 
+#include "io/engine_io.hpp"
 
 /**
  * @brief Handles the "isready" command : Checks that the engine is ready to play.

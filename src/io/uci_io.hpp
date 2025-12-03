@@ -1,9 +1,8 @@
 #pragma once
 
-#include "engine_io.hpp"
-
 #include <string>
 
+#include "engine_io.hpp"
 
 /**
  * @class ConsoleIO
@@ -11,10 +10,9 @@
  *
  * This class handles input and output operations through the console.
  */
-class ConsoleIO: public IEngineIO {
+class ConsoleIO : public IEngineIO {
+   public:
+    virtual ~ConsoleIO() = default;
 
-    public:
-        virtual ~ConsoleIO() = default;
-
-        virtual void output(const std::string& message) override;
+    virtual void output(const std::string& message) override;
 };

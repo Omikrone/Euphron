@@ -25,7 +25,7 @@ const std::map<POSITION_OPTIONS, std::variant<std::string, std::vector<Move>>> p
         if (args[i] == "startpos") {
             options.emplace(POSITION_OPTIONS::FEN, "startpos");
         } else if (args[i] == "fen") {
-            std::string fen = std::format("{} {} {} {} {} {}", args[i + 1], args[i + 2], args[i + 3], args[i + 4],
+            std::string fen = fmt::format("{} {} {} {} {} {}", args[i + 1], args[i + 2], args[i + 3], args[i + 4],
                                           args[i + 5], args[i + 6]);
             options.emplace(POSITION_OPTIONS::FEN, fen);
         } else if (args[i] == "moves") {

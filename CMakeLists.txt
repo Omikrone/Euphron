@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
+set(CMAKE_CXX_CLANG_TIDY "" CACHE STRING "Disable clang-tidy" FORCE)
 project(chessengine LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -56,6 +57,15 @@ else()
 endif()
 
 include(FetchContent)
+
+# fmt library for formatting
+FetchContent_Declare(
+  fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 10.2.1
+)
+FetchContent_MakeAvailable(fmt)
+
 FetchContent_Declare(
   crow
   GIT_REPOSITORY https://github.com/CrowCpp/Crow.git
@@ -64,7 +74,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(crow)
 target_link_libraries(chessengine PRIVATE Crow::Crow)
 
-include(FetchContent)
 FetchContent_Declare(
   chess
   GIT_REPOSITORY https://github.com/Omikrone/Chessboard
@@ -78,6 +87,7 @@ FetchContent_MakeAvailable(chess)
 target_link_libraries(chessengine
     PRIVATE
         chess
+        fmt::fmt
         Threads::Threads
         ZLIB::ZLIB
         OpenSSL::SSL

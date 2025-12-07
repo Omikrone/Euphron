@@ -1,5 +1,20 @@
 # Change Log
 
+## [0.2.0] - 2025-12-07
+
+### Added
+
+- Added functionality to either run the UCI engine or use the API wrapper based on command-line arguments.
+- Implemented WebSocket communication for the API wrapper to interact with the Chessgame project.
+- Implemented iterative deepening in the search algorithm to handle time constraints better.
+- Added basic UCI command options like "movetime".
+- Implemented UCI thread management for handling multiple commands concurrently.
+- Implemented search flag to stop the search when required.
+- Added possibility for the engine to play as either white or black based on UCI commands.
+
+### Fixed
+- Fixed handling of no best move found during search, ensuring the engine returns a valid move.
+
 
 ## [0.1.2] - 2025-10-25
 

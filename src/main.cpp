@@ -1,21 +1,31 @@
-#include "uci/uci.hpp"
+#include "api/controllers/engine_controller.hpp"
 #include "api/routes/command_route.hpp"
-
-
+#include "console/console.hpp"
 #include "crow.h"
 #include "crow/middlewares/cors.h"
+#include "io/http_io.hpp"
+#include "uci/uci.hpp"
 
 using namespace crow;
 
+int main(int argc, char** argv) {
+    bool force_http = false;
+    for (int i = 1; i < argc; i++) {
+        std::string arg(argv[i]);
+        if (arg == "--http") force_http = true;
+    }
 
-int main() {
+    if (force_http) {
+        crow::App<crow::CORSHandler> app;
+        EngineController controller;
 
-    crow::App<crow::CORSHandler> app;
-    std::vector<std::unique_ptr<Game>> games;
+        register_engine_routes(app, controller);
 
-    UCI interface;
-    register_command_routes(app, interface);
-
-    // Runs the app on port 18088
-    app.port(18088).multithreaded().run();
+        // Runs the app on port 18088
+        app.port(18088).multithreaded().run();
+    } else {
+        std::shared_ptr<IEngineIO> uci = std::make_shared<ConsoleIO>();
+        Console console(uci);
+        console.run();
+    }
 }

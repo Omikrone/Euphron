@@ -6,8 +6,8 @@
 #include "engine/evaluation/evaluation.hpp"
 #include "game.hpp"
 
-#define MAX 2000000
-#define MIN -2000000
+constexpr int MAX = 2000000;
+constexpr int MIN = -2000000;
 
 /**
  * @brief Class responsible for the search of the best moves.

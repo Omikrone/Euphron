@@ -4,9 +4,15 @@
 
 #include <chrono>
 
+int cur_depth = 0;
+
 Search::Search(Game& game) : _game(game) {}
 
 int Search::node(int current_depth, int max_depth, bool& search_flag, Color maximizing_player, int alpha, int beta) {
+    if (current_depth > cur_depth) {
+        cur_depth = current_depth;
+        std::cout << "New max depth achieved : " << cur_depth << std::endl;
+    }
     _game.next_turn();
     Color current_turn = _game.get_current_turn();
     Color minimizing_player = (maximizing_player == Color::WHITE) ? Color::BLACK : Color::WHITE;
@@ -33,16 +39,11 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, Color maxi
 
     std::vector<Move> moves = _game.get_legal_moves();
 
-    int cur_alpha, cur_beta;
     if (current_turn == minimizing_player) {
         best_score = MAX;  // Extremum to update
-        cur_alpha = beta;
-        cur_beta = MIN; 
     }
     else {
         best_score = MIN;
-        cur_beta = alpha;
-        cur_alpha = MAX; 
     }
 
     for (Move& move : moves) {
@@ -52,22 +53,26 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, Color maxi
         if (!res) {
             move.print();
         }
-        score = node(current_depth + 1, max_depth, search_flag, maximizing_player, cur_alpha, cur_beta);
+        if (current_turn == minimizing_player) score = node(current_depth + 1, max_depth, search_flag, maximizing_player, MAX, best_score);
+        else score = node(current_depth + 1, max_depth, search_flag, maximizing_player, best_score, MIN);
         _game.unmake_move();
         if (current_turn == minimizing_player && score < best_score)
             best_score = score;  // White tries to minimize black score
         else if (current_turn == maximizing_player && score > best_score)
             best_score = score;  // Black wants to maximize its score
-        if (score < alpha || score > beta) break;
+        if (current_turn == minimizing_player && score <= alpha || 
+            current_turn == maximizing_player && score >= beta) break;
     }
 
     return best_score;
 }
 
 void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_flag) {
+    cur_depth = 0;
     int depth = 1;
     int best_score = -200000;
-    int beta = MIN;
+    int beta = MAX;
+    int alpha = MIN;
 
     Color current_turn = _game.get_current_turn();
     std::vector<Move> moves = _game.get_legal_moves();
@@ -80,7 +85,7 @@ void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_
         for (Move& m : moves) {
             if (!search_flag) break;
             _game.try_apply_move(m.from, m.to);
-            int score = node(1, depth, search_flag, current_turn, best_score, beta);
+            int score = node(1, depth, search_flag, current_turn, alpha, beta);
 
             if (score == best_score) {
                 current_depth_best_moves.push_back(m);

@@ -6,6 +6,9 @@
 #include "engine/evaluation/evaluation.hpp"
 #include "game.hpp"
 
+#define MAX 2000000
+#define MIN -2000000
+
 /**
  * @brief Class responsible for the search of the best moves.
  *
@@ -22,7 +25,7 @@ class Search {
      * @param max_depth The maximum depth for the search.
      * @return The score evaluated of the current node.
      */
-    int node(int current_depth, int max_depth, bool &stop_flag, Color maximizing_player);
+    int node(int current_depth, int max_depth, bool &stop_flag, Color maximizing_player, int alpha, int beta);
 
    public:
     Search(Game &game);

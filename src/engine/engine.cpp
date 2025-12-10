@@ -42,7 +42,6 @@ void Engine::play_move(Move& move) {
     if (!res) {
         _engine_io.output("info string Invalid move received.");
     }
-    _game.next_turn();
 }
 
 void Engine::start_search(std::optional<int> depth, std::optional<int> movetime, std::optional<int> wtime,

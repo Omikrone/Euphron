@@ -11,7 +11,7 @@
 #include "game.hpp"
 #include "io/uci_io.hpp"
 
-#define MAX_DEPTH 5
+#define MAX_DEPTH 10
 
 /**
  * @brief Main class representing the Engine "Euphron".

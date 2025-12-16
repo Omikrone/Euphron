@@ -3,7 +3,8 @@
 #include <optional>
 #include <vector>
 
-#include "engine/evaluation/evaluation.hpp"
+#include "engine/search/quiescence.hpp"
+
 #include "game.hpp"
 
 constexpr int MAX = 2000000;

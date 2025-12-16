@@ -14,27 +14,10 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, Color maxi
         std::cout << "New max depth achieved : " << cur_depth <<  " : " << max_depth << std::endl;
     }
     //if (current_depth == 1) std::cout << "Current turn : " << _game.get_current_turn() << std::endl;
+    if (current_depth == max_depth) return quiescence(_game, maximizing_player, alpha, beta, search_flag);
+
     Color current_turn = _game.get_current_turn();
     Color minimizing_player = (maximizing_player == Color::WHITE) ? Color::BLACK : Color::WHITE;
-
-    if (current_depth == max_depth) {
-        GameState state = _game.get_game_state();
-        int score;
-        if (state == GameState::DRAW_BY_75_MOVE_RULE || state == GameState::STALEMATE ||
-            state == GameState::DRAW_BY_INSUFFICIENT_MATERIAL || state == GameState::DRAW_BY_FIFTY_MOVE_RULE ||
-            state == GameState::DRAW_BY_THREEFOLD_REPETITION)
-            score = 0;
-        else if (state == GameState::CHECKMATE && current_turn == maximizing_player)
-            score = -1000000;
-        else if (state == GameState::CHECKMATE)
-            score = 1000000;
-        else {
-            score = Evaluation::evaluate_board_for(_game.get_board(), maximizing_player);
-            //std::cout << "SCORE : " << score << " POSITION : " << _game.get_fen() << std::endl;
-        }
-        return score;
-    }
-
     int score;
     int best_score;
     std::string best_fen;

@@ -33,21 +33,15 @@ int Engine::calculate_time_per_move(int wtime, int btime, int winc, int binc) {
     return time_per_move;
 }
 
-<<<<<<< HEAD
-void Engine::update_position(std::string fen, BBMove bb_move) {
-    bool res = _game.try_apply_move(bb_move.from, bb_move.to);
-=======
 void Engine::update_position(std::string fen) {
     _game.load_fen(fen);
 }
 
 void Engine::play_move(Move& move) {
     bool res = _game.try_apply_move(move.from, move.to);
->>>>>>> v0.2.0
     if (!res) {
         _engine_io.output("info string Invalid move received.");
     }
-    _game.next_turn();
 }
 
 void Engine::start_search(std::optional<int> depth, std::optional<int> movetime, std::optional<int> wtime,

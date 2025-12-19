@@ -2,7 +2,6 @@
 
 int quiescence(Game& game, Color maximizing_player, int alpha, int beta, bool& search_flag) {
     Color current_turn = game.get_current_turn();
-    Color minimizing_player = (maximizing_player == Color::WHITE) ? Color::BLACK : Color::WHITE;
     int stand_pat;
 
     GameState state = game.get_game_state();
@@ -22,17 +21,17 @@ int quiescence(Game& game, Color maximizing_player, int alpha, int beta, bool& s
         std::vector<Move> moves = game.get_capture_moves();
 
         stand_pat = Evaluation::evaluate_board_for(game.get_board(), maximizing_player);
-        if (stand_pat > alpha) alpha = stand_pat;
         if (stand_pat >= beta) return beta;
+        if (stand_pat > alpha) alpha = stand_pat;
 
         //std::cout <<"Number of capturing moves to explore : " << moves.size() << std::endl;
         for (Move m: moves) {
             if (!search_flag) break;
             game.try_apply_move(m.from, m.to);
-            int score = -quiescence(game, maximizing_player, -beta, -alpha, search_flag);
+            int score = -quiescence(game, game.get_current_turn(), -beta, -alpha, search_flag);
             game.unmake_move();
-            if (score > alpha) alpha = score;
             if (score >= beta) return beta;
+            if (score > alpha) alpha = score;
         }
 
         return alpha;

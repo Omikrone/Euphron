@@ -29,7 +29,7 @@ int quiescence(Game& game, Color maximizing_player, int alpha, int beta, bool& s
         for (Move m: moves) {
             if (!search_flag) break;
             game.try_apply_move(m.from, m.to);
-            int score = -quiescence(game, maximizing_player, alpha, beta, search_flag);
+            int score = -quiescence(game, maximizing_player, -beta, -alpha, search_flag);
             game.unmake_move();
             if (score > alpha) alpha = score;
             if (score >= beta) return beta;

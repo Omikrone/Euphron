@@ -26,7 +26,7 @@ class Search {
      * @param max_depth The maximum depth for the search.
      * @return The score evaluated of the current node.
      */
-    int node(int current_depth, int max_depth, bool &stop_flag, Color maximizing_player, int alpha, int beta);
+    int node(int current_depth, int max_depth, bool &stop_flag, int alpha, int beta);
 
    public:
     Search(Game &game);

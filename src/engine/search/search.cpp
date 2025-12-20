@@ -19,7 +19,6 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha,
     int score;
     int best_score = MIN;
     std::string best_fen;
-    Move best_move;
 
     std::vector<Move> moves = _game.get_legal_moves();
 
@@ -49,13 +48,18 @@ void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_
     cur_depth = 0;
     int depth = 1;
     int best_score, overall_best_score;
-    Color current_turn = _game.get_current_turn();
     std::vector<Move> moves = _game.get_legal_moves();
     std::vector<Move> current_depth_best_moves;
+    Move pv;
 
     while (depth <= max_depth) {
         if (!search_flag) break;
         best_score = MIN;  // Extremum to update
+
+        auto it = std::find(moves.begin(), moves.end(), pv);
+        if (it != moves.end()) {
+            std::swap(moves[0], *it);
+        }
         current_depth_best_moves.clear();
 
         for (Move& m : moves) {
@@ -73,6 +77,7 @@ void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_
             _game.unmake_move();
         }
         if (search_flag && !current_depth_best_moves.empty()) {
+            pv = current_depth_best_moves.at(0);
             overall_best_score = best_score;
             best_moves = current_depth_best_moves;
             std::cout << "best score for depth : " << depth << " with score: " << overall_best_score << std::endl;
@@ -85,5 +90,4 @@ void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_
             best_moves.push_back(m);
         }
     }
-    
 }

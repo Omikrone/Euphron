@@ -43,18 +43,19 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha,
     return best_score;
 }
 
-void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_flag) {
+void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_flag) {
     std::cout << "MINIMAX" << std::endl;
     cur_depth = 0;
     int depth = 1;
     int best_score, overall_best_score;
     std::vector<Move> moves = _game.get_legal_moves();
     std::vector<Move> current_depth_best_moves;
-    Move pv;
+    Move pv = {-1, -1, MoveType::NORMAL, false};
 
     while (depth <= max_depth) {
         if (!search_flag) break;
         best_score = MIN;  // Extremum to update
+        int alpha = MIN;
 
         auto it = std::find(moves.begin(), moves.end(), pv);
         if (it != moves.end()) {
@@ -65,12 +66,12 @@ void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_
         for (Move& m : moves) {
             if (!search_flag) break;
             _game.try_apply_move(m.from, m.to);
-            int score = -node(1, depth, search_flag, MIN, MAX);
+            int score = -node(1, depth, search_flag, alpha, MAX);
 
-            if (score == best_score) {
+            if (score == alpha) {
                 current_depth_best_moves.push_back(m);
-            } else if (score > best_score) {
-                best_score = score;
+            } else if (score > alpha) {
+                alpha = score;
                 current_depth_best_moves.clear();
                 current_depth_best_moves.push_back(m);
             }
@@ -78,7 +79,7 @@ void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_
         }
         if (search_flag && !current_depth_best_moves.empty()) {
             pv = current_depth_best_moves.at(0);
-            overall_best_score = best_score;
+            overall_best_score = alpha;
             best_moves = current_depth_best_moves;
             std::cout << "best score for depth : " << depth << " with score: " << overall_best_score << std::endl;
         }

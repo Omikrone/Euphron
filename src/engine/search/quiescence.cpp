@@ -1,6 +1,6 @@
 #include "quiescence.hpp"
 
-int quiescence(Game& game, Color maximizing_player, int alpha, int beta, bool& search_flag) {
+int quiescence(Game& game, int q_depth, Color maximizing_player, int alpha, int beta, bool& search_flag) {
     Color current_turn = game.get_current_turn();
     int stand_pat;
 
@@ -21,6 +21,7 @@ int quiescence(Game& game, Color maximizing_player, int alpha, int beta, bool& s
         std::vector<Move> moves = game.get_capture_moves();
 
         stand_pat = Evaluation::evaluate_board_for(game.get_board(), maximizing_player);
+        if (q_depth == MAX_Q_DEPTH) return stand_pat;
         if (stand_pat >= beta) return beta;
         if (stand_pat > alpha) alpha = stand_pat;
 
@@ -28,7 +29,7 @@ int quiescence(Game& game, Color maximizing_player, int alpha, int beta, bool& s
         for (Move m: moves) {
             if (!search_flag) break;
             game.try_apply_move(m.from, m.to);
-            int score = -quiescence(game, game.get_current_turn(), -beta, -alpha, search_flag);
+            int score = -quiescence(game, q_depth + 1, game.get_current_turn(), -beta, -alpha, search_flag);
             game.unmake_move();
             if (score >= beta) return beta;
             if (score > alpha) alpha = score;

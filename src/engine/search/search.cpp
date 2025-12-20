@@ -14,7 +14,7 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha,
         std::cout << "New max depth achieved : " << cur_depth <<  " : " << max_depth << std::endl;
     }
     Color current_turn = _game.get_current_turn();
-    if (current_depth == max_depth) return quiescence(_game, current_turn, alpha, beta, search_flag);
+    if (current_depth == max_depth) return quiescence(_game, 1, current_turn, alpha, beta, search_flag);
 
     int score;
     int best_score = MIN;

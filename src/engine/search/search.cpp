@@ -64,7 +64,6 @@ void Search::minimax(int max_depth, std::vector<Move>& best_moves, bool& search_
             int score = -node(1, depth, search_flag, MIN, MAX);
 
             if (score == best_score) {
-                current_depth_best_moves.clear(); 
                 current_depth_best_moves.push_back(m);
             } else if (score > best_score) {
                 best_score = score;

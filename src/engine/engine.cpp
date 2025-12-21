@@ -66,7 +66,7 @@ void Engine::start_search(std::optional<int> depth, std::optional<int> movetime,
     }
 
     _search_thread = std::thread(
-        [this, depth]() { _search.minimax(depth.value_or(MAX_DEPTH), _best_moves, _search_flag); });
+        [this, depth]() { _search.negamax(depth.value_or(MAX_DEPTH), _best_moves, _search_flag); });
 
     if (movetime.has_value() && !infinite.has_value()) {
         set_timer_thread(movetime.value());

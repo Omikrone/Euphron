@@ -5,10 +5,13 @@
 #include <chrono>
 
 int cur_depth = 0;
+int nodes_visited = 0;   // total visited nodes
+int nb_cutoffs = 0;     // nombre de coupures alpha-beta
 
 Search::Search(Game& game) : _game(game) {}
 
 int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha, int beta) {
+    nodes_visited++; 
     if (current_depth > cur_depth) {
         cur_depth = current_depth;
         std::cout << "New max depth achieved : " << cur_depth <<  " : " << max_depth << std::endl;
@@ -37,7 +40,10 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha,
             best_score = score;            
         }
         if (score > alpha) alpha = score;
-        if (alpha > beta) break;
+        if (alpha >= beta) {
+            nb_cutoffs++;
+            break;
+        }
     }
 
     return best_score;
@@ -46,6 +52,8 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha,
 void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_flag) {
     std::cout << "MINIMAX" << std::endl;
     cur_depth = 0;
+    nodes_visited = 0;
+    nb_cutoffs = 0;
     int depth = 1;
     int best_score, overall_best_score;
     std::vector<Move> moves = _game.get_legal_moves();
@@ -91,4 +99,5 @@ void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_
             best_moves.push_back(m);
         }
     }
+    std::cout << "Nodes visited: " << nodes_visited << ", cutoffs: " << nb_cutoffs << std::endl;
 }

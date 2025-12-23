@@ -19,8 +19,6 @@ int quiescence(Game& game, int q_depth, Color maximizing_player, int alpha, int 
         return stand_pat;
     }
     else {
-        std::vector<Move> moves = game.get_capture_moves();
-
         stand_pat = Evaluation::evaluate_board_for(game.get_board(), maximizing_player);
         if (q_depth == MAX_Q_DEPTH) return stand_pat;
         if (stand_pat >= beta) {
@@ -28,9 +26,16 @@ int quiescence(Game& game, int q_depth, Color maximizing_player, int alpha, int 
         }
         if (stand_pat > alpha) alpha = stand_pat;
 
+        std::vector<Move> moves = game.get_capture_moves();
+
         //std::cout <<"Number of capturing moves to explore : " << moves.size() << std::endl;
         for (Move m: moves) {
             if (!search_flag) break;
+            Bitboards& board = game.get_board();
+            PieceType capturer = board.get_piece_type(current_turn, m.from);
+            PieceType captured = board.get_piece_type(current_turn, m.to);
+            if (capturer > captured) continue;
+
             game.try_apply_move(m.from, m.to);
             int score = -quiescence(game, q_depth + 1, game.get_current_turn(), -beta, -alpha, search_flag);
             game.unmake_move();

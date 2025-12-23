@@ -1,10 +1,7 @@
 #include "quiescence.hpp"
 
-int quiescence_nodes_visited = 0;
-int nb_quiescence_cutoffs = 0;
 
 int quiescence(Game& game, int q_depth, Color maximizing_player, int alpha, int beta, bool& search_flag) {
-    quiescence_nodes_visited++;
     Color current_turn = game.get_current_turn();
     int stand_pat;
 
@@ -27,7 +24,6 @@ int quiescence(Game& game, int q_depth, Color maximizing_player, int alpha, int 
         stand_pat = Evaluation::evaluate_board_for(game.get_board(), maximizing_player);
         if (q_depth == MAX_Q_DEPTH) return stand_pat;
         if (stand_pat >= beta) {
-            nb_quiescence_cutoffs++;
             return beta;
         }
         if (stand_pat > alpha) alpha = stand_pat;
@@ -39,7 +35,6 @@ int quiescence(Game& game, int q_depth, Color maximizing_player, int alpha, int 
             int score = -quiescence(game, q_depth + 1, game.get_current_turn(), -beta, -alpha, search_flag);
             game.unmake_move();
             if (score >= beta) {
-                nb_quiescence_cutoffs++;
                 return beta;
             }
             if (score > alpha) alpha = score;

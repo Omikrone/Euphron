@@ -4,7 +4,8 @@
 
 #include <chrono>
 
-Search::Search(Game& game) : _game(game) {}
+
+Search::Search(Game& game) : _game(game), _mvv_lva(game.get_board()) {}
 
 int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha, int beta) {
     Color current_turn = _game.get_current_turn();
@@ -52,6 +53,7 @@ void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_
         best_score = MIN;  // Extremum to update
         int alpha = MIN;
 
+        _mvv_lva.sort_mvv_lva(moves, _game.get_current_turn());
         auto it = std::find(moves.begin(), moves.end(), pv);
         if (it != moves.end()) {
             std::swap(moves[0], *it);

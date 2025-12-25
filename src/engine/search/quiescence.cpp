@@ -1,6 +1,7 @@
 #include "quiescence.hpp"
 
 
+
 int quiescence(Game& game, int q_depth, Color maximizing_player, int alpha, int beta, bool& search_flag) {
     Color current_turn = game.get_current_turn();
     int stand_pat;

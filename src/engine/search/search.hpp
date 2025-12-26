@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
 
 #include "engine/search/quiescence.hpp"
+#include "engine/search/mvv_lva.hpp"    
 
 #include "game.hpp"
 
@@ -19,6 +20,9 @@ constexpr int MIN = -2000000;
 class Search {
    private:
     Game &_game;
+    Quiescence _quiescence;
+    MVVLVA _mvv_lva;
+    int _nb_nodes_visited = 0;
 
     /**
      * @brief Represents a node of the negamax search tree, calculate the score of the current node.

@@ -4,17 +4,19 @@
 
 #include <chrono>
 
-Search::Search(Game& game) : _game(game) {}
+
+Search::Search(Game& game) : _game(game), _mvv_lva(game.get_board()), _quiescence(game, _mvv_lva) {}
 
 int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha, int beta) {
+    _nb_nodes_visited++;
     Color current_turn = _game.get_current_turn();
-    if (current_depth == max_depth) return quiescence(_game, 1, current_turn, alpha, beta, search_flag);
-
+    if (current_depth >= max_depth) return _quiescence.quiescence(1, current_turn, alpha, beta, search_flag);
     int score;
     int best_score = MIN;
     std::string best_fen;
 
     std::vector<Move> moves = _game.get_legal_moves();
+    _mvv_lva.sort_mvv_lva(moves, _game.get_current_turn());
 
     for (Move& move : moves) {
         if (!search_flag) break;
@@ -40,7 +42,10 @@ int Search::node(int current_depth, int max_depth, bool& search_flag, int alpha,
 }
 
 void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_flag) {
-    std::cout << "MINIMAX" << std::endl;
+    _nb_nodes_visited = 0;
+    _quiescence.reset_nb_nodes_visited();
+    _quiescence.reset_sel_depth();
+    std::cout << "MINIMAX with depth " << max_depth << std::endl;
     int depth = 1;
     int best_score, overall_best_score;
     std::vector<Move> moves = _game.get_legal_moves();
@@ -52,6 +57,7 @@ void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_
         best_score = MIN;  // Extremum to update
         int alpha = MIN;
 
+        _mvv_lva.sort_mvv_lva(moves, _game.get_current_turn());
         auto it = std::find(moves.begin(), moves.end(), pv);
         if (it != moves.end()) {
             std::swap(moves[0], *it);
@@ -86,4 +92,9 @@ void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_
             best_moves.push_back(m);
         }
     }
+    std::cout << "Seldepth reached : " << _quiescence.get_sel_depth() << std::endl;
+    std::cout << "Nodes visited in minimax : " << _nb_nodes_visited << std::endl;
+    std::cout << "Nodes visited in quiescence : " << _quiescence.get_nb_nodes_visited() << std::endl;
+    int total_nodes = _nb_nodes_visited + _quiescence.get_nb_nodes_visited();
+    std::cout << "Total nodes visited : " << total_nodes << std::endl;
 }

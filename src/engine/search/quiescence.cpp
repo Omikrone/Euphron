@@ -42,7 +42,13 @@ int Quiescence::quiescence(int q_depth, Color maximizing_player, int alpha, int 
             PieceType captured = board.get_piece_type(opponent, m.to);
             if (PIECE_VALUES[capturer] > PIECE_VALUES[captured]) continue;
 
-            _game.try_apply_move(m.from, m.to);
+            bool res = _game.try_apply_move(m.from, m.to);
+            if (!res) {
+                std::cerr << "Quiescence: Illegal move attempted: " << m.to_uci() << std::endl;
+                std::cerr << "FEN: " << _game.get_fen() << std::endl;
+                std::cerr << "State of bitboards:" << std::endl;
+                exit(EXIT_FAILURE);
+            }
             int score = -quiescence(q_depth + 1, _game.get_current_turn(), -beta, -alpha, search_flag);
             _game.unmake_move();
             if (score >= beta) {

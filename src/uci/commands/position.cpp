@@ -12,6 +12,7 @@ void position(std::vector<std::string>& args, Engine& engine) {
 
     if (position_options.find(POSITION_OPTIONS::MOVES) != position_options.end()) {
         for (Move& move : std::get<std::vector<Move>>(position_options[POSITION_OPTIONS::MOVES])) {
+            std::cout << "Playing move: " << move.to_uci() << std::endl;
             engine.play_move(move);
         }
     }

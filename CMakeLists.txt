@@ -40,7 +40,7 @@ if(MSVC)
     add_compile_definitions(_WIN32_WINNT=0x0A00)
     target_compile_options(chessengine PRIVATE /W4 /O3)
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread -O3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread")
 endif()
 
 # ----------------------------
@@ -77,7 +77,7 @@ target_link_libraries(chessengine PRIVATE Crow::Crow)
 FetchContent_Declare(
   chess
   GIT_REPOSITORY https://github.com/Omikrone/Chessboard
-  GIT_TAG v1.5.0
+  GIT_TAG release
 )
 FetchContent_MakeAvailable(chess)
 

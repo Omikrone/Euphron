@@ -40,7 +40,7 @@ if(MSVC)
     add_compile_definitions(_WIN32_WINNT=0x0A00)
     target_compile_options(chessengine PRIVATE /W4 /O3)
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread -O3")
 endif()
 
 # ----------------------------

@@ -20,8 +20,8 @@ constexpr int MIN = -2000000;
 class Search {
    private:
     Game &_game;
-    Quiescence _quiescence;
     MVVLVA _mvv_lva;
+    Quiescence _quiescence;
     int _nb_nodes_visited = 0;
 
     /**

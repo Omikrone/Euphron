@@ -7,7 +7,6 @@ Search::Search(Game& game) : _game(game), _mvv_lva(game.get_board()), _quiescenc
 
 int Search::node(int current_depth, Color maximizing_player, int max_depth, bool& search_flag, int alpha, int beta) {
     _nb_nodes_visited++;
-    Color current_turn = _game.get_current_turn();
     if (current_depth >= max_depth) return _quiescence.quiescence(1, maximizing_player, alpha, beta, search_flag);
     int score;
     int best_score = MIN;
@@ -23,8 +22,6 @@ int Search::node(int current_depth, Color maximizing_player, int max_depth, bool
         if (!res) {
             std::cerr << "Search: Illegal move attempted: " << move.to_uci() << std::endl;
             std::cerr << "FEN: " << _game.get_fen() << std::endl;
-            std::cerr << "State of bitboards:" << std::endl;
-            Bitboards &board = _game.get_board();
             exit(EXIT_FAILURE);
         }
 
@@ -49,7 +46,7 @@ void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_
     _quiescence.reset_sel_depth();
     std::cout << "MINIMAX with depth " << max_depth << std::endl;
     int depth = 1;
-    int best_score, overall_best_score;
+    int overall_best_score;
     std::vector<Move> moves = _game.get_legal_moves();
     std::vector<Move> current_depth_best_moves;
     Move pv = {-1, -1, MoveType::NORMAL, false};
@@ -57,7 +54,6 @@ void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_
 
     while (depth <= max_depth) {
         if (!search_flag) break;
-        best_score = MIN;  // Extremum to update
         int alpha = MIN;
 
         _mvv_lva.sort_mvv_lva(moves, _game.get_current_turn());

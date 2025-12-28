@@ -42,8 +42,6 @@ void Engine::play_move(Move& move) {
     if (!res) {
         std::cerr << "Engine: Illegal move attempted: " << move.to_uci() << std::endl;
         std::cerr << "FEN: " << _game.get_fen() << std::endl;
-        std::cerr << "State of bitboards:" << std::endl;
-        Bitboards& board = _game.get_board();
         _engine_io.output("info string Invalid move received.");
     }
 }

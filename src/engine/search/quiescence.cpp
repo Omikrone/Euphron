@@ -7,11 +7,9 @@ int Quiescence::quiescence(int q_depth, Color maximizing_player, int alpha, int 
     _sel_depth = std::max(_sel_depth, q_depth);
     _nb_nodes_visited++;
     Color current_turn = _game.get_current_turn();
-    Color opponent = (current_turn == Color::WHITE) ? Color::BLACK : Color::WHITE;
-    int stand_pat;
+    int stand_pat = 0;
 
     GameState state = _game.get_game_state();
-    int score;
     if (state != GameState::CONTINUING) {
         if (state == GameState::DRAW_BY_75_MOVE_RULE || state == GameState::STALEMATE ||
             state == GameState::DRAW_BY_INSUFFICIENT_MATERIAL || state == GameState::DRAW_BY_FIFTY_MOVE_RULE ||
@@ -36,9 +34,7 @@ int Quiescence::quiescence(int q_depth, Color maximizing_player, int alpha, int 
 
         for (Move m: moves) {
             if (!search_flag) break;
-            Bitboards& board = _game.get_board();
-            PieceType capturer = board.get_piece_type(current_turn, m.from);
-            PieceType captured = board.get_piece_type(opponent, m.to);
+
 
             bool res = _game.try_apply_move(m.from, m.to);
             if (!res) {

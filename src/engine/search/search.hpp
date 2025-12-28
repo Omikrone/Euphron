@@ -20,8 +20,8 @@ constexpr int MIN = -2000000;
 class Search {
    private:
     Game &_game;
-    Quiescence _quiescence;
     MVVLVA _mvv_lva;
+    Quiescence _quiescence;
     int _nb_nodes_visited = 0;
 
     /**
@@ -31,7 +31,7 @@ class Search {
      * @param max_depth The maximum depth for the search.
      * @return The score evaluated of the current node.
      */
-    int node(int current_depth, int max_depth, bool &stop_flag, int alpha, int beta);
+    int node(int current_depth, Color maximizing_player, int max_depth, bool &stop_flag, int alpha, int beta);
 
    public:
     Search(Game &game);

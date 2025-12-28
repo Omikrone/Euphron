@@ -40,6 +40,8 @@ void Engine::update_position(std::string fen) {
 void Engine::play_move(Move& move) {
     bool res = _game.try_apply_move(move.from, move.to);
     if (!res) {
+        std::cerr << "Engine: Illegal move attempted: " << move.to_uci() << std::endl;
+        std::cerr << "FEN: " << _game.get_fen() << std::endl;
         _engine_io.output("info string Invalid move received.");
     }
 }
@@ -47,6 +49,7 @@ void Engine::play_move(Move& move) {
 void Engine::start_search(std::optional<int> depth, std::optional<int> movetime, std::optional<int> wtime,
                           std::optional<int> btime, std::optional<int> winc, std::optional<int> binc,
                           std::optional<bool> infinite) {
+    std::cout << "FEN before search: " << _game.get_fen() << std::endl;
     _engine_io.output("info string Starting search...");
     if (_search_flag == true) {
         _engine_io.output("info string A search is already running.");

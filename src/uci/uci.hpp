@@ -1,5 +1,3 @@
-// uci.hpp
-
 #pragma once
 
 #include <cstdint>

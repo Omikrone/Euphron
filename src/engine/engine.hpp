@@ -1,5 +1,3 @@
-// engine.hpp
-
 #pragma once
 
 #include <chrono>

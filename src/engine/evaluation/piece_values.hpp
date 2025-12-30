@@ -1,4 +1,3 @@
-// piece_values.hpp
 #pragma once
 
 // Piece values used in evaluation function

@@ -1,5 +1,3 @@
-// uci.cpp
-
 #include "uci.hpp"
 
 UCI::UCI(std::shared_ptr<IEngineIO> engine_io) : _engine(*engine_io.get()), _engine_io(engine_io) {}

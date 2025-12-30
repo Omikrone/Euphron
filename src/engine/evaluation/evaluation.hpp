@@ -1,5 +1,3 @@
-// evaluation.hpp
-
 #include "game.hpp"
 #include "piece_values.hpp"
 

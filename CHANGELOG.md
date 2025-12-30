@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.3.0] - 2025-12-31
+
+### Added
+- Added alpha-beta pruning to the minimax search algorithm for improved performance.
+- Implemented quiescence search to improve evaluation in volatile positions.
+- Added Primary Variation (PV) tracking to enhance move ordering.
+- Implemented MVV-LVA move ordering heuristic for better pruning efficiency.
+- Added selective depth tracking during search.
+
+### Changed
+- Changed minimax search function to a negamax implementation for simplification.
+
+
 ## [0.2.0] - 2025-12-07
 
 ### Added

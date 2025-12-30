@@ -1,5 +1,3 @@
-// search.hpp
-
 #include <optional>
 #include <vector>
 #include <bits/stdc++.h>

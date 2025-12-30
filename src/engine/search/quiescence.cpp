@@ -36,7 +36,7 @@ int Quiescence::quiescence(int q_depth, Color maximizing_player, int alpha, int 
             if (!search_flag) break;
 
 
-            bool res = _game.try_apply_move(m.from, m.to);
+            bool res = _game.try_apply_move(m);
             if (!res) {
                 std::cerr << "Quiescence: Illegal move attempted: " << m.to_uci() << std::endl;
                 std::cerr << "FEN: " << _game.get_fen() << std::endl;

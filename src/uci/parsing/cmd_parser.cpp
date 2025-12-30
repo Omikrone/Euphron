@@ -1,5 +1,3 @@
-// cmd_parser.cpp
-
 #include "cmd_parser.hpp"
 
 #include <iostream>

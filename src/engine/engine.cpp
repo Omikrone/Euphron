@@ -1,5 +1,3 @@
-// engine.cpp
-
 #include "engine.hpp"
 
 Engine::Engine(IEngineIO& engine_io) : _game(), _search(_game), _engine_io(engine_io) {}
@@ -38,7 +36,7 @@ void Engine::update_position(std::string fen) {
 }
 
 void Engine::play_move(Move& move) {
-    bool res = _game.try_apply_move(move.from, move.to);
+    bool res = _game.try_apply_move(move);
     if (!res) {
         std::cerr << "Engine: Illegal move attempted: " << move.to_uci() << std::endl;
         std::cerr << "FEN: " << _game.get_fen() << std::endl;

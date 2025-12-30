@@ -18,7 +18,7 @@ int Search::node(int current_depth, Color maximizing_player, int max_depth, bool
     for (Move& move : moves) {
         if (!search_flag) break;
 
-        bool res = _game.try_apply_move(move.from, move.to);
+        bool res = _game.try_apply_move(move);
         if (!res) {
             std::cerr << "Search: Illegal move attempted: " << move.to_uci() << std::endl;
             std::cerr << "FEN: " << _game.get_fen() << std::endl;
@@ -65,7 +65,7 @@ void Search::negamax(int max_depth, std::vector<Move>& best_moves, bool& search_
 
         for (Move& m : moves) {
             if (!search_flag) break;
-            bool res = _game.try_apply_move(m.from, m.to);
+            bool res = _game.try_apply_move(m);
             if (!res) {
                 std::cerr << "Search: Illegal move attempted: " << m.to_uci() << std::endl;
                 std::cerr << "FEN: " << _game.get_fen() << std::endl;

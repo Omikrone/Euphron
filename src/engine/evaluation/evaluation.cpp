@@ -1,6 +1,4 @@
-// evaluation.cpp
-
-#include "evaluation.hpp"
+#include "engine/evaluation/evaluation.hpp"
 
 int Evaluation::evaluate_board_for(Bitboards& board, Color player) {
     int player_score = Evaluation::evaluate_player(board, player);

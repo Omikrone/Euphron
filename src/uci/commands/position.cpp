@@ -6,7 +6,6 @@ void position(std::vector<std::string>& args, Engine& engine) {
 
     if (position_options.find(POSITION_OPTIONS::FEN) != position_options.end()) {
         std::string fen = std::get<std::string>(position_options[POSITION_OPTIONS::FEN]);
-        // TODO: Handle FEN with spaces
         engine.update_position(fen);
     }
 

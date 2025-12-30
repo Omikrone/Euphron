@@ -38,9 +38,9 @@ target_include_directories(chessengine PRIVATE src)
 # ----------------------------
 if(MSVC)
     add_compile_definitions(_WIN32_WINNT=0x0A00)
-    target_compile_options(chessengine PRIVATE /W4)
+    target_compile_options(chessengine PRIVATE /W4 /O3)
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread -O3")
 endif()
 
 # ----------------------------
@@ -77,7 +77,7 @@ target_link_libraries(chessengine PRIVATE Crow::Crow)
 FetchContent_Declare(
   chess
   GIT_REPOSITORY https://github.com/Omikrone/Chessboard
-  GIT_TAG v1.4.0
+  GIT_TAG v1.5.0
 )
 FetchContent_MakeAvailable(chess)
 

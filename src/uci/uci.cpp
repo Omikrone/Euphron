@@ -2,6 +2,10 @@
 
 UCI::UCI(std::shared_ptr<IEngineIO> engine_io) : _engine(*engine_io.get()), _engine_io(engine_io) {}
 
+void UCI::reset_idle_timer() {
+    _last_activity = std::chrono::steady_clock::now();
+}
+
 std::vector<std::string> UCI::split(const std::string& s) {
     std::istringstream iss(s);
     std::vector<std::string> tokens;
@@ -11,6 +15,7 @@ std::vector<std::string> UCI::split(const std::string& s) {
 }
 
 void UCI::handle_command(std::string input) {
+    reset_idle_timer();
     std::string output;
 
     std::vector<std::string> args = UCI::split(input);
@@ -51,4 +56,10 @@ void UCI::handle_command(std::string input) {
         default:
             break;
     }
+}
+
+bool UCI::is_idle() const {
+    auto now = std::chrono::steady_clock::now();
+    auto idle_duration = std::chrono::duration_cast<std::chrono::minutes>(now - _last_activity).count();
+    return idle_duration >= IDLE_TIMEOUT;
 }

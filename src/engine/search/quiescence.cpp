@@ -3,7 +3,7 @@
 
 Quiescence::Quiescence(Game& game, MVVLVA& mvv_lva) : _game(game), _mvv_lva(mvv_lva) {}
 
-int Quiescence::quiescence(int q_depth, Color maximizing_player, int alpha, int beta, bool& search_flag) {
+int Quiescence::quiescence(int q_depth, Color maximizing_player, int alpha, int beta, std::atomic<bool> &search_flag) {
     _sel_depth = std::max(_sel_depth, q_depth);
     _nb_nodes_visited++;
     Color current_turn = _game.get_current_turn();

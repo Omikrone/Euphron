@@ -1,6 +1,9 @@
+#pragma once
+
 #include <optional>
 #include <vector>
 #include <bits/stdc++.h>
+#include <atomic>
 
 #include "engine/search/quiescence.hpp"
 #include "engine/search/mvv_lva.hpp"    
@@ -29,7 +32,7 @@ class Search {
      * @param max_depth The maximum depth for the search.
      * @return The score evaluated of the current node.
      */
-    int node(int current_depth, Color maximizing_player, int max_depth, bool &stop_flag, int alpha, int beta);
+    int node(int current_depth, Color maximizing_player, int max_depth, std::atomic<bool> &stop_flag, int alpha, int beta);
 
    public:
     Search(Game &game);
@@ -42,5 +45,5 @@ class Search {
      * @param depth The maximum depth for the search.
      * @return A vector of the "best" moves to play.
      */
-    void negamax(int depth, std::vector<Move>& best_moves, bool &stop_flag);
+    void negamax(int depth, std::vector<Move>& best_moves, std::atomic<bool> &stop_flag);
 };

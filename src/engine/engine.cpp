@@ -2,14 +2,27 @@
 
 Engine::Engine(IEngineIO& engine_io) : _game(), _search(_game), _engine_io(engine_io) {}
 
+Engine::~Engine() {
+    if (_search_flag.load()) {
+        _search_flag.store(false);
+    }
+
+    if (_timer_future.valid()) {
+        _timer_future.wait();
+    }
+    
+    if (_search_thread.joinable()) {
+        _search_thread.join();
+    }
+}
+
 void Engine::set_timer_thread(int time_per_move) {
-    _timer_thread = std::thread([this, time_per_move]() {
+    _timer_future = std::async(std::launch::async, [this, time_per_move]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(time_per_move));
-        if (_search_flag) {
+        if (_search_flag.load()) {
             stop_search();
         }
     });
-    _timer_thread.detach();
 }
 
 int Engine::calculate_time_per_move(int wtime, int btime, int winc, int binc) {
@@ -47,13 +60,14 @@ void Engine::play_move(Move& move) {
 void Engine::start_search(std::optional<int> depth, std::optional<int> movetime, std::optional<int> wtime,
                           std::optional<int> btime, std::optional<int> winc, std::optional<int> binc,
                           std::optional<bool> infinite) {
+    std::lock_guard<std::mutex> lock(_best_moves_mutex);
     std::cout << "FEN before search: " << _game.get_fen() << std::endl;
     _engine_io.output("info string Starting search...");
-    if (_search_flag == true) {
+    if (_search_flag.load()) {
         _engine_io.output("info string A search is already running.");
         return;
     }
-    _search_flag = true;
+    _search_flag.store(true);
     _best_moves.clear();
     if (!movetime.has_value()) {
         if (infinite.has_value() && infinite.value() == true && !depth.has_value()) {
@@ -66,6 +80,9 @@ void Engine::start_search(std::optional<int> depth, std::optional<int> movetime,
         }
     }
 
+    if (_search_thread.joinable()) {
+        _search_thread.join();
+    }
     _search_thread = std::thread(
         [this, depth]() { _search.negamax(depth.value_or(MAX_DEPTH), _best_moves, _search_flag); });
 
@@ -77,14 +94,17 @@ void Engine::start_search(std::optional<int> depth, std::optional<int> movetime,
 }
 
 void Engine::stop_search() {
-    if (_search_flag == false) {
+    if (!_search_flag.load()) {
         _engine_io.output("info string No search to stop.");
         return;
     } else {
-        _search_flag = false;
+        _search_flag.store(false);
+        
         if (_search_thread.joinable()) {
             _search_thread.join();
         }
+
+        std::lock_guard<std::mutex> lock(_best_moves_mutex);
         _engine_io.output("info string Search stopped.");
         int random_i = rand() % _best_moves.size();
         Move move = _best_moves[random_i];

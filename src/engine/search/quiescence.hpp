@@ -1,8 +1,9 @@
 #pragma once
 
+#include <atomic>
 #include "game.hpp"
-#include "engine/search/mvv_lva.hpp"
 
+#include "engine/search/mvv_lva.hpp"
 #include "engine/evaluation/evaluation.hpp"
 
 
@@ -34,7 +35,7 @@ public:
      * @param beta The beta value for alpha-beta pruning.
      * @return The evaluated score of the position.
      */
-    int quiescence(int q_depth, Color maximizing_player, int alpha, int beta, bool& search_flag);
+    int quiescence(int q_depth, Color maximizing_player, int alpha, int beta, std::atomic<bool> &search_flag);
 
     /**
      * @brief Gets the number of nodes visited during the quiescence search.

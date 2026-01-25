@@ -20,7 +20,7 @@ class EngineController {
 
    public:
     EngineController();
-    ~EngineController() = default;
+    ~EngineController();
 
     /**
      * @brief Creates a new engine session.
@@ -43,6 +43,12 @@ class EngineController {
      * @return True if the session exists, false otherwise.
      */
     bool has_session(uint64_t session_id);
+
+    /**
+     * @brief Removes a specific session by its ID.
+     * @param session_id The unique identifier for the session to remove.
+     */
+    void remove_session(uint64_t session_id);
 
     /**
      * @brief Frees sessions that have been idle for too long.

@@ -20,7 +20,7 @@ class Console {
 
    public:
     Console(std::shared_ptr<IEngineIO> engine_io);
-    ~Console() = default;
+    ~Console();
 
     /**
      * @brief Runs the console interface, handling user input and engine commands.

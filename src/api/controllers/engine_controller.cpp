@@ -2,6 +2,11 @@
 
 EngineController::EngineController() {}
 
+EngineController::~EngineController() {
+    std::lock_guard<std::mutex> lock(_sessions_mutex);
+    _sessions.clear();
+}
+
 uint64_t EngineController::create_session(crow::websocket::connection& conn, int session_id) {
     std::lock_guard<std::mutex> lock(_sessions_mutex);
     std::shared_ptr<IEngineIO> http_io = std::make_shared<HttpIO>(&conn);
@@ -19,12 +24,27 @@ bool EngineController::has_session(uint64_t session_id) {
     return _sessions.find(session_id) != _sessions.end(); 
 }
 
+void EngineController::remove_session(uint64_t session_id) {
+    std::lock_guard<std::mutex> lock(_sessions_mutex);
+    auto it = _sessions.find(session_id);
+    if (it != _sessions.end()) {
+        CROW_LOG_INFO << "Removing session " << session_id;
+        _sessions.erase(it);
+    }
+}
+
 void EngineController::free_idle_sessions() {
     std::lock_guard<std::mutex> lock(_sessions_mutex);
+    
     std::vector<uint64_t> sessions_to_remove;
     for (const auto& [session_id, uci] : _sessions) {
         if (uci.is_idle()) {
-            _sessions.erase(session_id);
+            sessions_to_remove.push_back(session_id);
         }
+    }
+
+    for (uint64_t id : sessions_to_remove) {
+        CROW_LOG_INFO << "Removing idle session " << id;
+        _sessions.erase(id);
     }
 }

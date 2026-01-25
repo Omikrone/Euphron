@@ -4,6 +4,8 @@
 #include <ctime>
 #include <optional>
 #include <thread>
+#include <atomic>
+#include <mutex>
 
 #include "engine/search/search.hpp"
 #include "game.hpp"
@@ -21,15 +23,16 @@ class Engine {
     Game _game;
     Search _search;
     std::thread _search_thread;
-    std::thread _timer_thread;
+    std::future<void> _timer_future;
     IEngineIO& _engine_io;
-    bool _search_flag;
+    std::atomic<bool> _search_flag;
     std::vector<Move> _best_moves;
+    std::mutex _best_moves_mutex;
 
    public:
     Engine(IEngineIO& engine_io);
 
-    ~Engine() = default;
+    ~Engine();
 
     int calculate_time_per_move(int wtime, int btime, int winc, int binc);
 

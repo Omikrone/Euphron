@@ -1,5 +1,3 @@
-// engine_controller.hpp
-
 #pragma once
 
 #include <memory>
@@ -18,10 +16,11 @@
 class EngineController {
    private:
     std::unordered_map<uint64_t, UCI> _sessions;
+    mutable std::mutex _sessions_mutex;
 
    public:
     EngineController();
-    ~EngineController() = default;
+    ~EngineController();
 
     /**
      * @brief Creates a new engine session.
@@ -44,4 +43,17 @@ class EngineController {
      * @return True if the session exists, false otherwise.
      */
     bool has_session(uint64_t session_id);
+
+    /**
+     * @brief Removes a specific session by its ID.
+     * @param session_id The unique identifier for the session to remove.
+     */
+    void remove_session(uint64_t session_id);
+
+    /**
+     * @brief Frees sessions that have been idle for too long.
+     *
+     * This method checks all sessions and removes those that have been idle beyond a predefined timeout.
+     */
+    void free_idle_sessions();
 };

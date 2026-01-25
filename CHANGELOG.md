@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.3.1] - 2026-01-25
+
+### Added
+- Idle timer to remove inactive sessions
+
+### Fixed
+- Improved threads management by adding async instead of detaching
+- Added mutex and atomic variables to prevent race condition
+
 ## [0.3.0] - 2025-12-31
 
 ### Added

@@ -22,6 +22,8 @@
 #include "uci/parsing/cmd_parser.hpp"
 #include "uci/uci_commands.hpp"
 
+#define IDLE_TIMEOUT 30 // in minutes
+
 /**
  * @brief Class responsible for the UCI Interface.
  *
@@ -31,6 +33,7 @@ class UCI {
    private:
     Engine _engine;
     std::shared_ptr<IEngineIO> _engine_io;
+    std::chrono::steady_clock::time_point _last_activity;
 
     /**
      * @brief Splits an input into the different parts of a command.
@@ -38,6 +41,12 @@ class UCI {
      * @param s The input to split.
      */
     std::vector<std::string> split(const std::string& s);
+
+    /**
+     * @brief Resets the idle timer to the current time.
+     *
+     */
+    void reset_idle_timer();
 
    public:
     UCI(std::shared_ptr<IEngineIO> engine_io);
@@ -55,4 +64,11 @@ class UCI {
      * @param input The command to handle.
      */
     void handle_command(std::string input);
+
+    /**
+     * @brief Checks if the engine is idle (not searching) for a long time.
+     *
+     * @return true if the engine is idle, false otherwise.
+     */
+    bool is_idle() const;
 };

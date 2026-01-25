@@ -5,6 +5,7 @@
 #include <optional>
 #include <thread>
 #include <atomic>
+#include <mutex>
 
 #include "engine/search/search.hpp"
 #include "game.hpp"
@@ -26,6 +27,7 @@ class Engine {
     IEngineIO& _engine_io;
     std::atomic<bool> _search_flag;
     std::vector<Move> _best_moves;
+    std::mutex _best_moves_mutex;
 
    public:
     Engine(IEngineIO& engine_io);

@@ -7,5 +7,6 @@ void HttpIO::output(const std::string& message) {
         std::cerr << "Error: WebSocket connection is null." << std::endl;
         return;
     }
+    std::cout << message << std::endl;
     _conn->send_text(message);
 }

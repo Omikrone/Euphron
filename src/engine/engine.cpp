@@ -60,9 +60,10 @@ void Engine::play_move(Move& move) {
 void Engine::start_search(std::optional<int> depth, std::optional<int> movetime, std::optional<int> wtime,
                           std::optional<int> btime, std::optional<int> winc, std::optional<int> binc,
                           std::optional<bool> infinite) {
+    std::lock_guard<std::mutex> lock(_best_moves_mutex);
     std::cout << "FEN before search: " << _game.get_fen() << std::endl;
     _engine_io.output("info string Starting search...");
-    if (_search_flag.load() == true) {
+    if (_search_flag.load()) {
         _engine_io.output("info string A search is already running.");
         return;
     }
@@ -93,19 +94,17 @@ void Engine::start_search(std::optional<int> depth, std::optional<int> movetime,
 }
 
 void Engine::stop_search() {
-    if (_search_flag.load() == false) {
+    if (!_search_flag.load()) {
         _engine_io.output("info string No search to stop.");
         return;
     } else {
         _search_flag.store(false);
         
-        if (_timer_future.valid()) {
-            _timer_future.wait();
-        }
-        
         if (_search_thread.joinable()) {
             _search_thread.join();
         }
+
+        std::lock_guard<std::mutex> lock(_best_moves_mutex);
         _engine_io.output("info string Search stopped.");
         int random_i = rand() % _best_moves.size();
         Move move = _best_moves[random_i];

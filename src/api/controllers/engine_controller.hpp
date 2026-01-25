@@ -20,7 +20,7 @@ class EngineController {
 
    public:
     EngineController();
-    ~EngineController() = default;
+    ~EngineController();
 
     /**
      * @brief Creates a new engine session.

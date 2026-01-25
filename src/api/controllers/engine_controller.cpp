@@ -2,6 +2,11 @@
 
 EngineController::EngineController() {}
 
+EngineController::~EngineController() {
+    std::lock_guard<std::mutex> lock(_sessions_mutex);
+    _sessions.clear();
+}
+
 uint64_t EngineController::create_session(crow::websocket::connection& conn, int session_id) {
     std::lock_guard<std::mutex> lock(_sessions_mutex);
     std::shared_ptr<IEngineIO> http_io = std::make_shared<HttpIO>(&conn);

@@ -4,6 +4,14 @@
 
 Console::Console(std::shared_ptr<IEngineIO> engine_io) : _uci(engine_io), _engine_io(engine_io) {}
 
+Console::~Console() {
+    for (auto& thread : _uci_threads) {
+        if (thread.joinable()) {
+            thread.join();
+        }
+    }
+}
+
 void Console::run() {
     std::string input;
     std::string output;

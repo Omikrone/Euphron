@@ -2,14 +2,27 @@
 
 Engine::Engine(IEngineIO& engine_io) : _game(), _search(_game), _engine_io(engine_io) {}
 
+Engine::~Engine() {
+    if (_search_flag.load()) {
+        _search_flag.store(false);
+    }
+
+    if (_timer_future.valid()) {
+        _timer_future.wait();
+    }
+    
+    if (_search_thread.joinable()) {
+        _search_thread.join();
+    }
+}
+
 void Engine::set_timer_thread(int time_per_move) {
-    _timer_thread = std::thread([this, time_per_move]() {
+    _timer_future = std::async(std::launch::async, [this, time_per_move]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(time_per_move));
-        if (_search_flag) {
+        if (_search_flag.load()) {
             stop_search();
         }
     });
-    _timer_thread.detach();
 }
 
 int Engine::calculate_time_per_move(int wtime, int btime, int winc, int binc) {
@@ -66,6 +79,9 @@ void Engine::start_search(std::optional<int> depth, std::optional<int> movetime,
         }
     }
 
+    if (_search_thread.joinable()) {
+        _search_thread.join();
+    }
     _search_thread = std::thread(
         [this, depth]() { _search.negamax(depth.value_or(MAX_DEPTH), _best_moves, _search_flag); });
 
@@ -82,6 +98,11 @@ void Engine::stop_search() {
         return;
     } else {
         _search_flag.store(false);
+        
+        if (_timer_future.valid()) {
+            _timer_future.wait();
+        }
+        
         if (_search_thread.joinable()) {
             _search_thread.join();
         }

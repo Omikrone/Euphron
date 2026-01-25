@@ -22,7 +22,7 @@ class Engine {
     Game _game;
     Search _search;
     std::thread _search_thread;
-    std::thread _timer_thread;
+    std::future<void> _timer_future;
     IEngineIO& _engine_io;
     std::atomic<bool> _search_flag;
     std::vector<Move> _best_moves;
@@ -30,7 +30,7 @@ class Engine {
    public:
     Engine(IEngineIO& engine_io);
 
-    ~Engine() = default;
+    ~Engine();
 
     int calculate_time_per_move(int wtime, int btime, int winc, int binc);
 

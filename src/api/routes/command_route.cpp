@@ -9,6 +9,9 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
                 crow::json::rvalue req = crow::json::load(message);
                 int session_id = req["session_id"].i();
                 uint64_t id = static_cast<uint64_t>(session_id);
+
+                conn.userdata(reinterpret_cast<void*>(id));
+                
                 if (!controller.has_session(id)) {
                     controller.create_session(conn, id);
                 }
@@ -18,8 +21,13 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
                 conn.send_text(std::string("Error: ") + e.what());
             }
         })
-        .onclose([&controller](crow::websocket::connection& /*conn*/, const std::string& reason) {
-            controller.free_idle_sessions();
-            CROW_LOG_INFO << "WebSocket closed for session: " << reason;
+        .onclose([&controller](crow::websocket::connection& conn, const std::string& reason) {
+            uint64_t session_id = reinterpret_cast<uint64_t>(conn.userdata());
+            if (session_id > 0) {
+                CROW_LOG_INFO << "WebSocket closed for session " << session_id << ": " << reason;
+                controller.remove_session(session_id);
+            } else {
+                CROW_LOG_INFO << "WebSocket closed (no session): " << reason;
+            }
         });
 }

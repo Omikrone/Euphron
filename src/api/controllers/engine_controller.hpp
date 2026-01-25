@@ -45,6 +45,12 @@ class EngineController {
     bool has_session(uint64_t session_id);
 
     /**
+     * @brief Removes a specific session by its ID.
+     * @param session_id The unique identifier for the session to remove.
+     */
+    void remove_session(uint64_t session_id);
+
+    /**
      * @brief Frees sessions that have been idle for too long.
      *
      * This method checks all sessions and removes those that have been idle beyond a predefined timeout.

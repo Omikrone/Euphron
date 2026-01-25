@@ -16,6 +16,7 @@
 class EngineController {
    private:
     std::unordered_map<uint64_t, UCI> _sessions;
+    mutable std::mutex _sessions_mutex;
 
    public:
     EngineController();

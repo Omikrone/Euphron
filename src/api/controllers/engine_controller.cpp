@@ -1,5 +1,3 @@
-// engine_controller.cpp
-
 #include "engine_controller.hpp"
 
 EngineController::EngineController() {}
@@ -13,3 +11,12 @@ uint64_t EngineController::create_session(crow::websocket::connection& conn, int
 UCI& EngineController::get_session(uint64_t session_id) { return _sessions.at(session_id); }
 
 bool EngineController::has_session(uint64_t session_id) { return _sessions.find(session_id) != _sessions.end(); }
+
+void EngineController::free_idle_sessions() {
+    std::vector<uint64_t> sessions_to_remove;
+    for (const auto& [session_id, uci] : _sessions) {
+        if (uci.is_idle()) {
+            _sessions.erase(session_id);
+        }
+    }
+}

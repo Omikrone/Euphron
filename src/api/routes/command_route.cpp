@@ -1,5 +1,3 @@
-// command_route.cpp
-
 #include "command_route.hpp"
 
 void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController& controller) {
@@ -20,7 +18,8 @@ void register_engine_routes(crow::App<crow::CORSHandler>& app, EngineController&
                 conn.send_text(std::string("Error: ") + e.what());
             }
         })
-        .onclose([](crow::websocket::connection& /*conn*/, const std::string& reason) {
+        .onclose([&controller](crow::websocket::connection& /*conn*/, const std::string& reason) {
+            controller.free_idle_sessions();
             CROW_LOG_INFO << "WebSocket closed for session: " << reason;
         });
 }

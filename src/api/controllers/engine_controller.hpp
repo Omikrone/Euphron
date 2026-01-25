@@ -1,5 +1,3 @@
-// engine_controller.hpp
-
 #pragma once
 
 #include <memory>
@@ -44,4 +42,11 @@ class EngineController {
      * @return True if the session exists, false otherwise.
      */
     bool has_session(uint64_t session_id);
+
+    /**
+     * @brief Frees sessions that have been idle for too long.
+     *
+     * This method checks all sessions and removes those that have been idle beyond a predefined timeout.
+     */
+    void free_idle_sessions();
 };

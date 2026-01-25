@@ -4,6 +4,7 @@
 #include <ctime>
 #include <optional>
 #include <thread>
+#include <atomic>
 
 #include "engine/search/search.hpp"
 #include "game.hpp"
@@ -23,7 +24,7 @@ class Engine {
     std::thread _search_thread;
     std::thread _timer_thread;
     IEngineIO& _engine_io;
-    bool _search_flag;
+    std::atomic<bool> _search_flag;
     std::vector<Move> _best_moves;
 
    public:

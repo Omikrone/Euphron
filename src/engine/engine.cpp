@@ -49,11 +49,11 @@ void Engine::start_search(std::optional<int> depth, std::optional<int> movetime,
                           std::optional<bool> infinite) {
     std::cout << "FEN before search: " << _game.get_fen() << std::endl;
     _engine_io.output("info string Starting search...");
-    if (_search_flag == true) {
+    if (_search_flag.load() == true) {
         _engine_io.output("info string A search is already running.");
         return;
     }
-    _search_flag = true;
+    _search_flag.store(true);
     _best_moves.clear();
     if (!movetime.has_value()) {
         if (infinite.has_value() && infinite.value() == true && !depth.has_value()) {
@@ -77,11 +77,11 @@ void Engine::start_search(std::optional<int> depth, std::optional<int> movetime,
 }
 
 void Engine::stop_search() {
-    if (_search_flag == false) {
+    if (_search_flag.load() == false) {
         _engine_io.output("info string No search to stop.");
         return;
     } else {
-        _search_flag = false;
+        _search_flag.store(false);
         if (_search_thread.joinable()) {
             _search_thread.join();
         }

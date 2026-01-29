@@ -1,5 +1,10 @@
 # Change Log
 
+### [0.3.2] - 2026-01-29
+
+### Changed
+- Update CMakeLists.txt and README.md to improve build instructions.
+
 ## [0.3.1] - 2026-01-25
 
 ### Added

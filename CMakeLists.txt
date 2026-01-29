@@ -11,9 +11,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-# ----------------------------
 # OS detection
-# ----------------------------
 if(WIN32)
     message(STATUS "Compiling on Windows")
     set(PLATFORM_WINDOWS TRUE)
@@ -22,20 +20,14 @@ elseif(UNIX)
     set(PLATFORM_LINUX TRUE)
 endif()
 
-# ----------------------------
-# Sources du jeu
-# ----------------------------
+# Game source files
 file(GLOB_RECURSE GAME_SOURCES "src/*.cpp")
 
-# ----------------------------
-# Exécutable
-# ----------------------------
+# Executable target
 add_executable(chessengine ${GAME_SOURCES})
 target_include_directories(chessengine PRIVATE src)
 
-# ----------------------------
-# Options de compilation
-# ----------------------------
+# Compiler options
 if(MSVC)
     add_compile_definitions(_WIN32_WINNT=0x0A00)
     target_compile_options(chessengine PRIVATE /W4 /O3)
@@ -43,9 +35,7 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -pthread -O3")
 endif()
 
-# ----------------------------
-# Dépendances externes
-# ----------------------------
+# External dependencies
 find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -81,9 +71,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(chess)
 
-# ----------------------------
-# Lien avec libs
-# ----------------------------
+# Linking libraries
 target_link_libraries(chessengine
     PRIVATE
         chess
@@ -96,9 +84,7 @@ target_link_libraries(chessengine
         Crow::Crow
 )
 
-# ----------------------------
 # Windows specific options
-# ----------------------------
 if(PLATFORM_WINDOWS)
     if(DEFINED ENV{VCPKG_ROOT})
         message(STATUS "VCPKG_ROOT detected: $ENV{VCPKG_ROOT}")

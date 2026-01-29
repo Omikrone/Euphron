@@ -1,6 +1,6 @@
 # Euphron - A UCI Chess engine
 
-[![Euphron Logo](assets/logo.png)](assets/logo.png)
+<img src="assets/logo.png" alt="Euphron Logo" width="400"/>
 
 ## Introduction
 
